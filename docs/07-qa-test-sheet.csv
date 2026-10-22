@@ -1,0 +1,6 @@
+tool,kategori,url,platform,risiko_utama,tester,tanggal_uji,buka_tanpa_login,tugas_inti_berhasil,ekspor_berhasil,watermark,kuota_ditemukan,butuh_kartu_kredit,status_final,batas_satu_baris,verified,checked_at,catatan,bukti_file
+"CapCut","video","https://www.capcut.com","web, desktop, mobile","Watermark dan batas ekspor","","","","","","","","","","","","","",""
+"Adobe Podcast Enhance","audio","https://podcast.adobe.com","web","Batas durasi dan kuota","","","","","","","","","","","","","",""
+"Canva","marketing","https://www.canva.com","web, desktop, mobile","Elemen berbayar yang tidak terlihat","","","","","","","","","","","","","",""
+"Raycast","produktivitas","https://www.raycast.com","desktop (macOS)","Fitur inti bergeser ke Pro","","","","","","","","","","","","","",""
+"Google AI Studio","ai","https://aistudio.google.com","web","Kuota harian per model","","","","","","","","","","","","","",""

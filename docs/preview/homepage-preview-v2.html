@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gudangtool — Direktori Tool Digital Indonesia</title>
+<meta name="description" content="Cari tool digital untuk kerja dan usaha: gratis, freemium, atau berbayar. Setiap kartu menyebut batasnya dan apakah sudah diuji.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F3EE; --surface:#FFFDF9; --ink:#12212E; --muted:#5C6A73;
+    --line:#DCD3C4; --kraft:#C8A27A; --accent:#C24A18; --accent-strong:#9E3A12; --verified:#3E7C5A;
+    --sans:'Inter',system-ui,-apple-system,sans-serif;
+    --display:'Space Grotesk','Inter',system-ui,sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6}
+  a{color:inherit}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 32px}
+  @media(max-width:640px){.wrap{padding:0 20px}}
+
+  .previewbar{background:var(--ink);color:var(--paper);font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:8px 0}
+  .previewbar .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+  header.site{border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--paper);z-index:20}
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:16px 0}
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+  .brand svg{width:30px;height:30px;color:var(--ink);display:block}
+  .brand span{font-family:var(--display);font-weight:500;font-size:21px;letter-spacing:-.02em}
+  nav.links{display:flex;gap:26px;font-size:14px}
+  nav.links a{text-decoration:none;color:var(--muted)}
+  nav.links a:hover{color:var(--ink)}
+  @media(max-width:860px){nav.links{display:none}}
+  .btn{font-family:var(--sans);font-size:14px;font-weight:600;padding:11px 18px;border-radius:2px;border:1px solid transparent;cursor:pointer;text-decoration:none;display:inline-block}
+  .btn-primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .btn-primary:hover{background:var(--accent-strong);border-color:var(--accent-strong)}
+  .btn-secondary{background:transparent;color:var(--ink);border-color:var(--ink)}
+  .btn-secondary:hover{background:var(--ink);color:var(--paper)}
+  .btn-sm{padding:8px 14px;font-size:13px}
+
+  .hero{padding:64px 0 44px;border-bottom:1px solid var(--line)}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-strong);margin-bottom:20px}
+  h1{font-family:var(--display);font-weight:500;font-size:60px;line-height:1.02;letter-spacing:-.035em;margin:0 0 20px;max-width:15ch}
+  @media(max-width:860px){h1{font-size:44px}}
+  @media(max-width:520px){h1{font-size:34px}}
+  .sub{font-size:18px;line-height:1.5;color:var(--muted);max-width:58ch;margin:0 0 28px}
+  .searchform{display:flex;gap:10px;flex-wrap:wrap;max-width:820px}
+  .searchfield{flex:1 1 420px;display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--ink);border-radius:2px;padding:0 16px;height:56px}
+  .searchfield svg{width:20px;height:20px;color:var(--muted);flex:none}
+  .searchfield input{flex:1;border:0;outline:0;background:transparent;font-family:var(--sans);font-size:16px;color:var(--ink);min-width:0}
+  .searchfield input::placeholder{color:var(--muted)}
+  .searchform .btn{height:56px;padding:0 24px}
+  .helper{font-size:13px;color:var(--muted);margin:12px 0 0}
+  .chipsrow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:18px}
+  .chipsrow b{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-right:4px}
+  .chip{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:6px 9px;border:1px solid var(--kraft);background:rgba(200,162,122,.18);border-radius:2px;text-decoration:none;color:var(--ink)}
+  .trust{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--muted);text-transform:uppercase;margin-top:22px}
+
+  section{padding:56px 0;border-bottom:1px solid var(--line)}
+  .sechead{display:flex;align-items:baseline;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:8px}
+  .sectitle{display:flex;align-items:baseline;gap:14px}
+  .num{font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--accent-strong)}
+  h2{font-family:var(--display);font-weight:500;font-size:30px;line-height:1.1;letter-spacing:-.02em;margin:0}
+  @media(max-width:520px){h2{font-size:25px}}
+  .lede{color:var(--muted);font-size:15.5px;max-width:62ch;margin:8px 0 28px}
+  .more{font-size:13px;font-weight:600;color:var(--accent-strong);text-decoration:none;border-bottom:1px solid var(--accent-strong);white-space:nowrap}
+
+  .cats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  @media(max-width:900px){.cats{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:480px){.cats{grid-template-columns:1fr}}
+  .cat{background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:15px;text-decoration:none;display:block;transition:transform .14s cubic-bezier(.2,0,0,1),box-shadow .14s}
+  .cat:hover{transform:translateY(-2px);box-shadow:0 2px 0 rgba(18,33,46,.08)}
+  .cat .ctop{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+  .cat h3{font-family:var(--display);font-weight:500;font-size:16.5px;margin:0}
+  .cat .count{font-family:var(--mono);font-size:10px;color:var(--muted)}
+  .cat p{font-size:12.5px;color:var(--muted);margin:5px 0 0;line-height:1.45}
+
+  .adslot{display:flex;align-items:center;justify-content:center;min-height:96px;border:1px dashed var(--line);border-radius:2px;background:var(--surface);margin:24px 0 0;position:relative}
+  .adslot span{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);position:absolute;top:8px;left:10px}
+  .adslot em{font-family:var(--mono);font-size:10px;color:var(--muted);font-style:normal}
+
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  @media(max-width:900px){.cards{grid-template-columns:1fr}}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:4px;overflow:hidden;text-decoration:none;display:block;transition:transform .14s cubic-bezier(.2,0,0,1),box-shadow .14s}
+  .card:hover{transform:translateY(-2px);box-shadow:0 2px 0 rgba(18,33,46,.08)}
+  .strip{background:var(--kraft);padding:6px 11px;font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;display:flex;justify-content:space-between;gap:8px}
+  .cbody{padding:15px}
+  .cbody h3{font-family:var(--display);font-weight:500;font-size:18px;margin:0 0 4px}
+  .cbody p{font-size:13px;color:var(--muted);margin:0 0 12px;line-height:1.5}
+  .badges{display:flex;gap:5px;flex-wrap:wrap}
+  .badge{font-family:var(--mono);font-size:8.5px;letter-spacing:.07em;padding:4px 6px;border:1px solid;border-radius:1px;text-transform:uppercase;line-height:1;white-space:nowrap}
+  .badge--verified{background:var(--verified);border-color:var(--verified);color:#fff}
+  .badge--listed{border:1px dashed var(--muted);color:var(--muted)}
+  .badge--paid{background:var(--kraft);border-color:var(--kraft);color:var(--ink)}
+  .badge--neutral{border-color:var(--line);color:var(--muted)}
+
+  .ranklist{border-top:1px solid var(--line)}
+  .rankrow{display:grid;grid-template-columns:44px 1fr auto auto;gap:14px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line);text-decoration:none}
+  .rankrow:hover{background:rgba(200,162,122,.08)}
+  .rankrow .r{font-family:var(--mono);font-size:20px;color:var(--muted)}
+  .rankrow .nm{font-family:var(--display);font-size:17px;font-weight:500}
+  .rankrow .nm small{display:block;font-family:var(--sans);font-size:11.5px;color:var(--muted);font-weight:400;letter-spacing:0}
+  .rankrow .metric{font-family:var(--mono);font-size:11px;color:var(--muted);text-align:right}
+  @media(max-width:560px){.rankrow{grid-template-columns:34px 1fr auto;gap:10px}.rankrow .metric{display:none}}
+
+  .collections{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  @media(max-width:900px){.collections{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:480px){.collections{grid-template-columns:1fr}}
+  .coll{background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:16px;text-decoration:none;display:block}
+  .coll:hover{box-shadow:0 2px 0 rgba(18,33,46,.08)}
+  .coll b{font-family:var(--display);font-weight:500;font-size:16px;display:block;margin-bottom:3px}
+  .coll span{font-size:12px;color:var(--muted)}
+  .coll em{font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-style:normal;display:block;margin-top:10px}
+
+  .labels{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  @media(max-width:820px){.labels{grid-template-columns:1fr}}
+  .labelcard{border:1px solid var(--line);border-radius:4px;padding:18px;background:var(--surface)}
+  .labelcard .badges{margin-bottom:10px}
+  .labelcard h3{font-family:var(--display);font-weight:500;font-size:17px;margin:0 0 6px}
+  .labelcard p{font-size:13px;color:var(--muted);margin:0;line-height:1.55}
+
+  .submitband{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:center}
+  @media(max-width:820px){.submitband{grid-template-columns:1fr}}
+  .paths{display:grid;gap:10px}
+  .path{border:1px solid var(--line);border-radius:4px;padding:14px;background:var(--surface);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+  .path b{font-family:var(--display);font-weight:500;font-size:15px;display:block}
+  .path span{font-size:12px;color:var(--muted)}
+  .path .p{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;align-self:center;color:var(--muted)}
+
+  .posts{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  @media(max-width:820px){.posts{grid-template-columns:1fr}}
+  .post{border-top:2px solid var(--ink);padding-top:12px;text-decoration:none;display:block}
+  .post em{font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-style:normal}
+  .post b{font-family:var(--display);font-weight:500;font-size:18px;line-height:1.25;display:block;margin-top:7px}
+
+  footer{padding:44px 0 36px}
+  .fgrid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:28px;padding-bottom:26px;border-bottom:1px solid var(--line)}
+  @media(max-width:820px){.fgrid{grid-template-columns:1fr 1fr}}
+  @media(max-width:520px){.fgrid{grid-template-columns:1fr}}
+  .fbrand{display:flex;align-items:center;gap:9px;margin-bottom:8px}
+  .fbrand svg{width:26px;height:26px;color:var(--ink)}
+  .fbrand span{font-family:var(--display);font-weight:500;font-size:19px;letter-spacing:-.02em}
+  footer p{font-size:13px;color:var(--muted);margin:0;max-width:34ch}
+  footer h4{font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 10px;font-weight:500}
+  footer ul{list-style:none;padding:0;margin:0;display:grid;gap:7px;font-size:13px}
+  footer ul a{text-decoration:none;color:var(--ink)}
+  .fnote{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:18px;font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+</style>
+</head>
+<body>
+
+<div class="previewbar">
+  <div class="wrap">
+    <span>Pratinjau v2.0 · model direktori</span>
+    <span>Angka &amp; entri masih contoh</span>
+  </div>
+</div>
+
+<header class="site">
+  <div class="wrap">
+    <div class="nav">
+      <a class="brand" href="#">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square" aria-hidden="true">
+          <path d="M11 5v38"/><path d="M11 27h26"/><path d="M11 43h20"/>
+          <rect x="19" y="13" width="13" height="14" rx="1"/><rect x="22" y="35" width="9" height="8" rx="1"/>
+        </svg>
+        <span>gudangtool</span>
+      </a>
+      <nav class="links">
+        <a href="#gudang">Gudang</a>
+        <a href="#kategori">Kategori</a>
+        <a href="#ranking">Ranking</a>
+        <a href="#artikel">Artikel</a>
+      </nav>
+      <a class="btn btn-secondary btn-sm" href="#submit">Titip tool</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Direktori tool digital · 1.240 tool · 380 diuji</div>
+    <h1>Semua tool digital, satu gudang.</h1>
+    <p class="sub">Cari berdasarkan kebutuhan, harga, dan platform. Setiap tool punya status verifikasi yang jelas — dan placement selalu ditandai.</p>
+    <form class="searchform" onsubmit="return false">
+      <label class="searchfield">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true">
+          <circle cx="11" cy="11" r="6"/><path d="m16 16 4 4"/>
+        </svg>
+        <input type="search" placeholder="Cari tool — misalnya: hapus background, transkrip audio, gabung PDF" aria-label="Cari tool">
+      </label>
+      <button class="btn btn-primary" type="submit">Cari</button>
+    </form>
+    <p class="helper">Tidak perlu akun untuk mencari.</p>
+    <div class="chipsrow">
+      <b>Sering dicari</b>
+      <a class="chip" href="#">Hapus background</a>
+      <a class="chip" href="#">Transkrip audio</a>
+      <a class="chip" href="#">Gabung PDF</a>
+      <a class="chip" href="#">Bikin logo</a>
+      <a class="chip" href="#">Ringkas video</a>
+      <a class="chip" href="#">Kompres gambar</a>
+    </div>
+    <div class="trust">1.240 tool · 380 sudah diuji · diperbarui Oktober 2026</div>
+  </div>
+</section>
+
+<section id="kategori">
+  <div class="wrap">
+    <div class="sechead">
+      <div class="sectitle"><span class="num">01</span><h2>Jelajahi gudang</h2></div>
+      <a class="more" href="#">Lihat semua kategori</a>
+    </div>
+    <p class="lede">Delapan kategori. Setiap isinya punya status yang bisa kamu cek sebelum membuka.</p>
+    <div class="cats">
+      <a class="cat" href="#"><div class="ctop"><h3>Gudang AI</h3><span class="count">214</span></div><p>Menulis, meringkas, membuat gambar</p></a>
+      <a class="cat" href="#"><div class="ctop"><h3>Gudang Desain</h3><span class="count">186</span></div><p>Diagram, edit gambar, aset visual</p></a>
+      <a class="cat" href="#"><div class="ctop"><h3>Gudang Video</h3><span class="count">142</span></div><p>Potong, subtitle, kompres</p></a>
+      <a class="cat" href="#"><div class="ctop"><h3>Gudang Audio</h3><span class="count">88</span></div><p>Rekam, bersihkan, transkrip</p></a>
+      <a class="cat" href="#"><div class="ctop"><h3>Gudang Produktivitas</h3><span class="count">210</span></div><p>Catatan, tugas, otomatisasi kecil</p></a>
+      <a class="cat" href="#"><div class="ctop"><h3>Gudang Developer</h3><span class="count">196</span></div><p>Editor, API, dokumentasi</p></a>
+      <a class="cat" href="#"><div class="ctop"><h3>Gudang Marketing</h3><span class="count">124</span></div><p>Konten sosial, email, analitik</p></a>
+      <a class="cat" href="#"><div class="ctop"><h3>Gudang UMKM</h3><span class="count">80</span></div><p>Katalog, kasir, komunikasi pelanggan</p></a>
+    </div>
+    <div class="adslot"><span>Iklan</span><em>Slot 970×90 · label selalu terlihat</em></div>
+  </div>
+</section>
+
+<section id="gudang">
+  <div class="wrap">
+    <div class="sechead">
+      <div class="sectitle"><span class="num">02</span><h2>Baru masuk gudang</h2></div>
+      <a class="more" href="#">Lihat semua</a>
+    </div>
+    <p class="lede">Tool yang terakhir ditambahkan. Labelnya menunjukkan sudah diuji atau belum.</p>
+    <div class="cards">
+      <a class="card" href="#">
+        <div class="strip"><span>Gudang Desain</span><span>Diuji</span></div>
+        <div class="cbody">
+          <h3>Excalidraw</h3>
+          <p>Papan gambar sketsa untuk diagram dan wireframe.</p>
+          <div class="badges">
+            <span class="badge badge--verified">Diuji</span>
+            <span class="badge badge--neutral">Tanpa akun</span>
+            <span class="badge badge--neutral">Gratis</span>
+          </div>
+        </div>
+      </a>
+      <a class="card" href="#">
+        <div class="strip"><span>Gudang AI</span><span>Terdaftar</span></div>
+        <div class="cbody">
+          <h3>Krea</h3>
+          <p>Platform gambar generatif untuk eksplorasi visual.</p>
+          <div class="badges">
+            <span class="badge badge--listed">Terdaftar</span>
+            <span class="badge badge--listed">Belum diuji</span>
+          </div>
+        </div>
+      </a>
+      <a class="card" href="#">
+        <div class="strip"><span>Gudang Audio</span><span>Terdaftar</span></div>
+        <div class="cbody">
+          <h3>Suno</h3>
+          <p>Pembuat musik dari teks, berbasis web.</p>
+          <div class="badges">
+            <span class="badge badge--listed">Terdaftar</span>
+            <span class="badge badge--listed">Belum diuji</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="ranking">
+  <div class="wrap">
+    <div class="sechead">
+      <div class="sectitle"><span class="num">03</span><h2>Paling sering dibuka minggu ini</h2></div>
+      <a class="more" href="#">Lihat ranking</a>
+    </div>
+    <p class="lede">Dihitung dari pembukaan kartu di Gudangtool — bukan taksiran trafik. Ditampilkan jika minimal 100 pembukaan dalam sepekan.</p>
+    <div class="ranklist">
+      <a class="rankrow" href="#"><span class="r">01</span><span class="nm">Excalidraw<small>Gudang Desain</small></span><span class="metric">1.842 pembukaan</span><span class="badge badge--verified">Diuji</span></a>
+      <a class="rankrow" href="#"><span class="r">02</span><span class="nm">Photopea<small>Gudang Desain</small></span><span class="metric">1.604 pembukaan</span><span class="badge badge--verified">Diuji</span></a>
+      <a class="rankrow" href="#"><span class="r">03</span><span class="nm">CapCut<small>Gudang Video</small></span><span class="metric">1.377 pembukaan</span><span class="badge badge--verified">Diuji</span></a>
+      <a class="rankrow" href="#"><span class="r">04</span><span class="nm">Canva<small>Gudang Marketing</small></span><span class="metric">1.290 pembukaan</span><span class="badge badge--verified">Diuji</span></a>
+      <a class="rankrow" href="#"><span class="r">05</span><span class="nm">VS Code<small>Gudang Developer</small></span><span class="metric">1.118 pembukaan</span><span class="badge badge--verified">Diuji</span></a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sechead">
+      <div class="sectitle"><span class="num">04</span><h2>Cari berdasarkan batasan</h2></div>
+      <a class="more" href="#">Semua koleksi</a>
+    </div>
+    <p class="lede">Filter yang paling sering dibutuhkan, langsung jadi halaman. Hanya berisi tool yang sudah diuji.</p>
+    <div class="collections">
+      <a class="coll" href="#"><b>Gratis tanpa akun</b><span>Bisa dipakai tanpa mendaftar</span><em>214 tool</em></a>
+      <a class="coll" href="#"><b>Tanpa watermark</b><span>Hasil ekspor bersih</span><em>96 tool</em></a>
+      <a class="coll" href="#"><b>Jalan di browser</b><span>Tanpa memasang aplikasi</span><em>178 tool</em></a>
+      <a class="coll" href="#"><b>Tanpa kartu kredit</b><span>Tidak ada trial yang menuntut kartu</span><em>302 tool</em></a>
+    </div>
+  </div>
+</section>
+
+<section id="label">
+  <div class="wrap">
+    <div class="sechead">
+      <div class="sectitle"><span class="num">05</span><h2>Cara kami memberi label</h2></div>
+      <a class="more" href="#">Baca metode</a>
+    </div>
+    <p class="lede">Dua status verifikasi, satu penanda komersial. Bedanya penting, jadi kami menuliskannya di setiap kartu.</p>
+    <div class="labels">
+      <div class="labelcard">
+        <div class="badges"><span class="badge badge--verified">Diuji</span></div>
+        <h3>Sudah dipakai dan diperiksa</h3>
+        <p>Kami memakai tool-nya, mencatat batas gratisnya, dan memperbarui tanggalnya. Hanya label ini yang kami jamin statusnya.</p>
+      </div>
+      <div class="labelcard">
+        <div class="badges"><span class="badge badge--listed">Terdaftar</span></div>
+        <h3>Masuk katalog, belum diuji</h3>
+        <p>Kartunya tidak mengklaim gratis dan tidak punya tabel batas. Kami menuliskannya apa adanya.</p>
+      </div>
+      <div class="labelcard">
+        <div class="badges"><span class="badge badge--paid">Placement berbayar</span></div>
+        <h3>Penanda komersial</h3>
+        <p>Selalu diberi tanda. Tidak mengubah status verifikasi dan tidak mengubah ranking.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="submit">
+  <div class="wrap submitband">
+    <div>
+      <div class="sechead"><div class="sectitle"><span class="num">06</span><h2>Punya tool? Titipkan.</h2></div></div>
+      <p class="lede" style="margin-bottom:18px">Dua jalur. Keduanya melewati pemeriksaan yang sama, dan tidak ada jaminan tayang.</p>
+      <a class="btn btn-primary" href="#">Lihat cara titip tool</a>
+    </div>
+    <div class="paths">
+      <div class="path"><div><b>Pengiriman biasa</b><span>Antrean 14 hari</span></div><span class="p">Gratis</span></div>
+      <div class="path"><div><b>Prioritas</b><span>Review 48 jam</span></div><span class="p">Berbayar</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="artikel">
+  <div class="wrap">
+    <div class="sechead">
+      <div class="sectitle"><span class="num">07</span><h2>Catatan dari gudang</h2></div>
+      <a class="more" href="#">Semua artikel</a>
+    </div>
+    <p class="lede">Panduan memilih tool, dan catatan saat batas gratis sebuah tool berubah.</p>
+    <div class="posts">
+      <a class="post" href="#"><em>Panduan</em><b>Tool gratis yang diam-diam meminta kartu kredit</b></a>
+      <a class="post" href="#"><em>Panduan</em><b>Cara membaca batas “gratis” sebelum mulai bekerja</b></a>
+      <a class="post" href="#"><em>Catatan</em><b>Kapan tool berbayar sebenarnya lebih murah</b></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <div class="fbrand">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square" aria-hidden="true">
+            <path d="M11 5v38"/><path d="M11 27h26"/><path d="M11 43h20"/>
+            <rect x="19" y="13" width="13" height="14" rx="1"/><rect x="22" y="35" width="9" height="8" rx="1"/>
+          </svg>
+          <span>gudangtool</span>
+        </div>
+        <p>Gudangnya tool digital. Batas gratis ditulis apa adanya.</p>
+      </div>
+      <div>
+        <h4>Gudang</h4>
+        <ul>
+          <li><a href="#">AI</a></li><li><a href="#">Desain</a></li><li><a href="#">Video</a></li>
+          <li><a href="#">Audio</a></li><li><a href="#">Developer</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Jelajah</h4>
+        <ul>
+          <li><a href="#">Kategori</a></li><li><a href="#">Ranking</a></li>
+          <li><a href="#">Koleksi</a></li><li><a href="#">Artikel</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Tentang</h4>
+        <ul>
+          <li><a href="#">Cara kerja</a></li><li><a href="#">Titip tool</a></li>
+          <li><a href="#">Kontak</a></li><li><a href="#">Kebijakan privasi</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="fnote">
+      <span>Beberapa tautan mungkin berafiliasi dan selalu ditandai. Placement tidak memengaruhi ranking.</span>
+      <span>© 2026 Gudangtool</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Krea — platform gambar generatif | Gudangtool</title>
+<meta name="description" content="Krea terdaftar di Gudangtool dan belum diuji. Lihat fungsi, platform, dan alternatif yang sudah diuji.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F3EE; --surface:#FFFDF9; --ink:#12212E; --muted:#5C6A73;
+    --line:#DCD3C4; --kraft:#C8A27A; --accent:#C24A18; --accent-strong:#9E3A12; --verified:#3E7C5A;
+    --sans:'Inter',system-ui,-apple-system,sans-serif;
+    --display:'Space Grotesk','Inter',system-ui,sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6}
+  a{color:inherit}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 32px}
+  @media(max-width:640px){.wrap{padding:0 20px}}
+
+  .previewbar{background:var(--ink);color:var(--paper);font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:8px 0}
+  .previewbar .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+  header.site{border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:16px 0}
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+  .brand svg{width:30px;height:30px;color:var(--ink)}
+  .brand span{font-family:var(--display);font-weight:500;font-size:21px;letter-spacing:-.02em}
+  .back{font-size:14px;color:var(--muted);text-decoration:none}
+  .back:hover{color:var(--ink)}
+
+  .crumb{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:26px 0 0}
+  .crumb a{text-decoration:none;border-bottom:1px solid var(--line)}
+
+  .head{padding:18px 0 30px;border-bottom:1px solid var(--line)}
+  .hrow{display:flex;justify-content:space-between;align-items:flex-start;gap:28px;flex-wrap:wrap}
+  h1{font-family:var(--display);font-weight:500;font-size:52px;line-height:1;letter-spacing:-.035em;margin:10px 0 12px}
+  @media(max-width:640px){h1{font-size:36px}}
+  .deck{font-size:18px;color:var(--muted);max-width:48ch;margin:0;line-height:1.45}
+  .statusline{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+  .badge{font-family:var(--mono);font-size:8.5px;letter-spacing:.07em;padding:4px 6px;border:1px solid;border-radius:1px;text-transform:uppercase;line-height:1;white-space:nowrap}
+  .badge--verified{background:var(--verified);border-color:var(--verified);color:#fff}
+  .badge--listed{border:1px dashed var(--muted);color:var(--muted)}
+  .badge--paid{background:var(--kraft);border-color:var(--kraft);color:var(--ink)}
+  .badge--neutral{border-color:var(--line);color:var(--muted)}
+  .checked{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  .actions{display:flex;flex-direction:column;gap:8px;align-items:flex-start;padding-top:14px}
+  .btn{font-family:var(--sans);font-size:14px;font-weight:600;padding:12px 20px;border-radius:2px;border:1px solid transparent;cursor:pointer;text-decoration:none;display:inline-block}
+  .btn-primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .btn-primary:hover{background:var(--accent-strong)}
+  .btn-secondary{background:transparent;color:var(--ink);border-color:var(--ink)}
+  .note{font-size:12px;color:var(--muted);max-width:28ch}
+
+  .warning{margin:28px 0 0;border-left:3px solid var(--accent);background:rgba(200,162,122,.18);padding:16px 18px;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;align-items:center}
+  .warning p{margin:0;font-size:14.5px;line-height:1.55;max-width:62ch}
+  .warning a{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-strong);text-decoration:none;border-bottom:1px solid var(--accent-strong);white-space:nowrap}
+
+  .layout{display:grid;grid-template-columns:1fr 288px;gap:48px;padding:36px 0 20px;align-items:start}
+  @media(max-width:900px){.layout{grid-template-columns:1fr;gap:30px}}
+  h2{font-family:var(--display);font-weight:500;font-size:23px;line-height:1.2;letter-spacing:-.01em;margin:0 0 12px}
+  .block{padding:24px 0;border-bottom:1px solid var(--line)}
+  .block:first-child{padding-top:0}
+  .block:last-child{border-bottom:0}
+  .block p{font-size:15.5px;line-height:1.65;margin:0 0 12px;max-width:62ch;color:var(--ink)}
+  .block p:last-child{margin-bottom:0}
+
+  .unknown{list-style:none;padding:0;margin:0;border-top:1px solid var(--line)}
+  .unknown li{display:flex;justify-content:space-between;gap:16px;padding:11px 0;border-bottom:1px solid var(--line);font-size:14px}
+  .unknown li span:first-child{color:var(--ink)}
+  .unknown li span:last-child{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-top:3px}
+
+  .alts{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:640px){.alts{grid-template-columns:1fr}}
+  .alt{display:block;text-decoration:none;border:1px solid var(--line);border-radius:4px;padding:16px;background:var(--surface);transition:transform .14s cubic-bezier(.2,0,0,1),box-shadow .14s}
+  .alt:hover{transform:translateY(-2px);box-shadow:0 2px 0 rgba(18,33,46,.08)}
+  .alt .badges{display:flex;gap:5px;margin-bottom:8px}
+  .alt strong{font-family:var(--display);font-size:17px;font-weight:500;display:block;margin-bottom:3px}
+  .alt span{font-size:13px;color:var(--muted);line-height:1.5;display:block}
+
+  .reportbox{border:1px solid var(--line);border-radius:4px;padding:18px;background:var(--surface)}
+  .reportbox p{font-size:14px;color:var(--muted);margin:0 0 12px}
+
+  .aside{display:grid;gap:14px;position:sticky;top:24px}
+  @media(max-width:900px){.aside{position:static}}
+  .infobox{border:1px solid var(--line);border-radius:4px;background:var(--surface);padding:16px}
+  .infobox h3{font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 12px;font-weight:500}
+  .inforow{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px solid var(--line);font-size:13px}
+  .inforow:last-child{border-bottom:0}
+  .inforow span:first-child{color:var(--muted)}
+  .inforow span:last-child{text-align:right;font-weight:500}
+  .small{font-size:12.5px;line-height:1.55;color:var(--muted);margin:0}
+  .small a{color:var(--accent-strong);text-decoration:none;border-bottom:1px solid var(--accent-strong)}
+
+  footer{border-top:1px solid var(--line);padding:26px 0 44px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  footer span{font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+</style>
+</head>
+<body>
+
+<div class="previewbar">
+  <div class="wrap">
+    <span>Pratinjau halaman detail · keadaan Terdaftar</span>
+    <span>Contoh entri · belum diuji</span>
+  </div>
+</div>
+
+<header class="site">
+  <div class="wrap">
+    <div class="nav">
+      <a class="brand" href="#">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square" aria-hidden="true">
+          <path d="M11 5v38"/><path d="M11 27h26"/><path d="M11 43h20"/>
+          <rect x="19" y="13" width="13" height="14" rx="1"/><rect x="22" y="35" width="9" height="8" rx="1"/>
+        </svg>
+        <span>gudangtool</span>
+      </a>
+      <a class="back" href="#">← Kembali ke Gudang AI</a>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="crumb"><a href="#">Gudang</a> / <a href="#">Gudang AI</a> / Krea</div>
+
+  <div class="head">
+    <div class="hrow">
+      <div>
+        <div class="statusline">
+          <span class="badge badge--listed">Terdaftar</span>
+          <span class="badge badge--listed">Belum diuji</span>
+          <span class="checked">Ditambahkan 22 Okt 2026</span>
+        </div>
+        <h1>Krea</h1>
+        <p class="deck">Platform gambar generatif untuk eksplorasi visual dan rendering real-time.</p>
+      </div>
+      <div class="actions">
+        <a class="btn btn-primary" href="#">Buka situs resmi</a>
+        <span class="note">Terbuka di tab baru. Kami tidak menerima pembayaran dari tautan ini.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="warning">
+    <p><strong>Kami belum menguji tool ini.</strong> Status gratisnya belum dipastikan — bisa berubah, atau tidak sesuai yang tertulis di situsnya. Kalau kamu memakainya, kabari kami.</p>
+    <a href="#">Kenapa ada label ini?</a>
+  </div>
+
+  <div class="layout">
+    <main>
+      <div class="block">
+        <h2>Apa ini</h2>
+        <p>Krea adalah platform gambar generatif berbasis web. Halaman ini kami buat untuk mencatat keberadaannya di katalog — belum ada pengujian batas gratis, kualitas hasil, atau syarat pemakaian.</p>
+        <p>Kalau kamu mencari tool yang statusnya sudah pasti, lihat alternatif di bawah. Keduanya sudah kami pakai dan catat batasnya.</p>
+      </div>
+
+      <div class="block">
+        <h2>Yang belum kami ketahui</h2>
+        <p>Bagian ini sengaja dibiarkan kosong sampai ada pengujian. Kami tidak mengisinya dengan tebakan.</p>
+        <ul class="unknown">
+          <li><span>Apakah perlu akun</span><span>Belum diperiksa</span></li>
+          <li><span>Apakah ada kuota</span><span>Belum diperiksa</span></li>
+          <li><span>Apakah ada watermark</span><span>Belum diperiksa</span></li>
+          <li><span>Apakah perlu kartu kredit</span><span>Belum diperiksa</span></li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <h2>Alternatif yang sudah diuji</h2>
+        <p>Kalau kamu butuh kepastian sebelum mencoba, ini tool sejenis yang sudah kami pakai.</p>
+        <div class="alts">
+          <a class="alt" href="#">
+            <div class="badges"><span class="badge badge--verified">Diuji</span><span class="badge badge--neutral">Gratis</span></div>
+            <strong>Excalidraw</strong>
+            <span>Untuk diagram dan wireframe. Bukan pengganti gambar generatif, tapi berguna saat kamu butuh visual cepat.</span>
+          </a>
+          <a class="alt" href="#">
+            <div class="badges"><span class="badge badge--verified">Diuji</span><span class="badge badge--neutral">Gratis</span></div>
+            <strong>Photopea</strong>
+            <span>Editor gambar berbasis browser. Cocok kalau kamu perlu menyunting hasil, bukan membuatnya dari teks.</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="block">
+        <h2>Sudah memakai tool ini?</h2>
+        <div class="reportbox">
+          <p>Kabari apa yang kamu temukan — perlu akun atau tidak, ada watermark atau tidak, sampai mana gratisnya. Kami akan memeriksanya dan menaikkan labelnya menjadi Diuji.</p>
+          <a class="btn btn-secondary" href="#">Laporkan pengalamanmu</a>
+        </div>
+      </div>
+    </main>
+
+    <aside class="aside">
+      <div class="infobox">
+        <h3>Info tool</h3>
+        <div class="inforow"><span>Kategori</span><span>Gudang AI</span></div>
+        <div class="inforow"><span>Platform</span><span>Web</span></div>
+        <div class="inforow"><span>Label</span><span>Terdaftar</span></div>
+        <div class="inforow"><span>Ditambahkan</span><span>22 Okt 2026</span></div>
+      </div>
+      <div class="infobox">
+        <h3>Kenapa belum diuji?</h3>
+        <p class="small">Katalog tumbuh lebih cepat daripada kapasitas pengujian. Daripada menunda semua entri, kami menandainya Terdaftar — tanpa klaim gratis. <a href="#">Baca metode</a></p>
+      </div>
+      <div class="infobox">
+        <h3>Ada yang berubah?</h3>
+        <p class="small">Kalau tool ini sudah tidak aktif atau batasnya berubah, <a href="#">kabari kami</a>.</p>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<footer class="wrap">
+  <span>Gudangtool · pratinjau keadaan Terdaftar</span>
+  <span>Tidak ada klaim gratis di halaman ini</span>
+</footer>
+
+</body>
+</html>

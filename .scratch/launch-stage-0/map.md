@@ -1,0 +1,39 @@
+# Map: Gudangtool Stage 0 launch
+
+## Destination
+
+A Stage 0 site running from `~/code/blog/gudangtool` (git repo → GitHub → Actions → VPS), on `gudangtool.web.id`, containing: the homepage, one indexable pilot category (Desain) with 15 Diuji tools, ~35 Terdaftar tools, legal pages, and a working `validate:content` build gate. 50 pages total. Other categories ship `noindex` until each reaches its threshold.
+
+**This map decides; it does not build.** The build is the handoff at the end.
+
+## Notes
+
+- Read `docs/09-decision-log.md` first; it outranks every other doc. `docs/14-repo-spec.md` defines the schema and page matrix this effort must obey.
+- Superseded by owner decision on 2026-10-22 (needs a decision-log entry — see ticket 10):
+  - Launch plays on **`.web.id`** with a planned `.id` upgrade later (D1 still holds).
+  - Pilot is **Desain only**, not Desain + AI (replaces P0 #2 / launch-plan §6 #1).
+  - `gudangtools.web.id` (plural) **301-redirects** to `gudangtool.web.id`.
+  - Scale is **50 pages**, not the 300-page first batch in `11-seo-architecture.md` §5.
+- Verification is **hybrid**: agent does mechanical checks (signup wall, watermark, quota text), owner does the 10-minute real-task test on the 5 riskiest tools. "Diuji" requires a human who actually used it.
+- Standing rule: never write "gratis" on a `terdaftar` entry. Build must fail on violation.
+- The `research` and `prototype` skills referenced by wayfinder are **not installed** in this environment. Research tickets use the `Agent` tool (`general-purpose`) instead.
+- `sumoclaw` VPS is down. `sumojak` (2 vCPU / 1.9 GB, Caddy installed) is the target. `sumocabinet` is spare capacity.
+- `~/code/blog/gudangtool` is empty except `docs/` and `.DS_Store`.
+
+## Decisions so far
+
+<!-- one line per closed ticket -->
+
+## Not yet specified
+
+- **Scaffolding after the schema is locked.** Framework layout, component decomposition, layout and island strategy for search. Depends on the build-gate ticket; cannot be sharpened until the schema stops moving.
+- **Design token → CSS delivery.** `docs/02-visual-identity.md` locks colours, fonts, radii; how that becomes tokens, and whether fonts are self-hosted at the stated ≤120 KB budget, is open.
+- **Search at 50 pages.** Pagefind is specified, but at 50 pages a client-side island may be the wrong call. Revisit once catalogue size stabilises.
+- **Submit flow mechanics.** GitHub Issue Form vs Tally, and where the `submission` label is triaged. The decision is recorded in the launch plan as a recommendation, not a spec.
+- **Legal page content.** Privacy, terms, contact, affiliate/placement disclosure. All four are AdSense and UU PDP requirements; wording is unwritten.
+- **AdSense application timing.** D9 puts AdSense behind placement revenue. Whether `ads.txt` and ad slots ship empty on day one or not at all is open.
+- **Collection/ranking eligibility at 50 tools.** Native thresholds (≥10 tool collection, ≥20 ranked tool, ≥100 opens) may make both unshippable at this size.
+
+## Out of scope
+
+<!-- work ruled beyond this destination -->

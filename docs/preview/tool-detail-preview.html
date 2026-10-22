@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Excalidraw — papan gambar gratis tanpa akun | Gudangtool</title>
+<meta name="description" content="Excalidraw adalah papan gambar sketsa untuk diagram dan wireframe. Gratis, tanpa akun, tanpa watermark. Batas dan alternatifnya kami catat.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F3EE; --surface:#FFFDF9; --ink:#12212E; --muted:#5C6A73;
+    --line:#DCD3C4; --kraft:#C8A27A; --accent:#C24A18; --accent-strong:#9E3A12; --verified:#3E7C5A;
+    --sans:'Inter',system-ui,-apple-system,sans-serif;
+    --display:'Space Grotesk','Inter',system-ui,sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6}
+  a{color:inherit}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 32px}
+  @media(max-width:640px){.wrap{padding:0 20px}}
+
+  .previewbar{background:var(--ink);color:var(--paper);font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:8px 0}
+  .previewbar .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+  header.site{border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:16px 0}
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+  .brand svg{width:30px;height:30px;color:var(--ink)}
+  .brand span{font-family:var(--display);font-weight:500;font-size:21px;letter-spacing:-.02em}
+  .back{font-size:14px;color:var(--muted);text-decoration:none}
+  .back:hover{color:var(--ink)}
+
+  .crumb{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:26px 0 0}
+  .crumb a{text-decoration:none;border-bottom:1px solid var(--line)}
+
+  .head{padding:18px 0 34px;border-bottom:1px solid var(--line)}
+  .hrow{display:flex;justify-content:space-between;align-items:flex-start;gap:28px;flex-wrap:wrap}
+  h1{font-family:var(--display);font-weight:500;font-size:54px;line-height:1;letter-spacing:-.035em;margin:10px 0 12px}
+  @media(max-width:640px){h1{font-size:38px}}
+  .deck{font-size:19px;color:var(--muted);max-width:48ch;margin:0 0 22px;line-height:1.45}
+  .statusline{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+  .badge{font-family:var(--mono);font-size:9px;letter-spacing:.08em;padding:5px 7px;border:2px solid;border-radius:1px;text-transform:uppercase;line-height:1}
+  .b-ver{border-color:var(--verified);color:var(--verified)}
+  .b-mut{border-color:var(--muted);color:var(--muted)}
+  .checked{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  .actions{display:flex;flex-direction:column;gap:8px;align-items:flex-start;padding-top:14px}
+  .btn{font-family:var(--sans);font-size:14px;font-weight:600;padding:12px 20px;border-radius:2px;border:1px solid transparent;cursor:pointer;text-decoration:none;display:inline-block}
+  .btn-primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .btn-primary:hover{background:var(--accent-strong)}
+  .note{font-size:12px;color:var(--muted);max-width:26ch}
+
+  .layout{display:grid;grid-template-columns:1fr 288px;gap:48px;padding:40px 0 20px;align-items:start}
+  @media(max-width:900px){.layout{grid-template-columns:1fr;gap:32px}}
+
+  h2{font-family:var(--display);font-weight:500;font-size:24px;line-height:1.2;letter-spacing:-.01em;margin:0 0 12px}
+  h2 + p{margin-top:0}
+  .block{padding:26px 0;border-bottom:1px solid var(--line)}
+  .block:first-child{padding-top:0}
+  .block:last-child{border-bottom:0}
+  .block p{font-size:16px;line-height:1.65;margin:0 0 12px;max-width:62ch}
+  .block p:last-child{margin-bottom:0}
+
+  .limits{width:100%;border-collapse:collapse;font-size:14px;margin-top:6px}
+  .limits th{text-align:left;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500;padding:10px 12px;border-bottom:1px solid var(--ink);width:38%}
+  .limits td{padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  .limits tr:last-child td{border-bottom:1px solid var(--line)}
+
+  .warn{background:rgba(200,162,122,.18);border-left:3px solid var(--accent);padding:14px 16px;margin-top:18px;font-size:14px;line-height:1.55}
+  .warn b{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:4px;color:var(--accent-strong)}
+
+  .fit{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  @media(max-width:640px){.fit{grid-template-columns:1fr}}
+  .fitbox{border:1px solid var(--line);border-radius:4px;padding:16px;background:var(--surface)}
+  .fitbox h3{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;margin:0 0 8px;color:var(--muted);font-weight:500}
+  .fitbox p{font-size:14.5px;margin:0;line-height:1.55}
+  .fitbox.no h3{color:var(--accent-strong)}
+
+  .alts{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:640px){.alts{grid-template-columns:1fr}}
+  .alt{display:block;text-decoration:none;border:1px solid var(--line);border-radius:4px;padding:16px;background:var(--surface);transition:transform .14s cubic-bezier(.2,0,0,1),box-shadow .14s}
+  .alt:hover{transform:translateY(-2px);box-shadow:0 2px 0 rgba(18,33,46,.08)}
+  .alt strong{font-family:var(--display);font-size:17px;font-weight:500;display:block;margin-bottom:3px}
+  .alt span{font-size:13px;color:var(--muted);line-height:1.5;display:block}
+
+  .history{list-style:none;padding:0;margin:0}
+  .history li{display:grid;grid-template-columns:118px 1fr;gap:16px;padding:11px 0;border-bottom:1px solid var(--line);font-size:14px}
+  .history li:last-child{border-bottom:0}
+  .history time{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-top:3px}
+
+  .aside{position:sticky;top:24px;display:grid;gap:16px}
+  @media(max-width:900px){.aside{position:static}}
+  .infobox{border:1px solid var(--line);border-radius:4px;background:var(--surface);padding:18px}
+  .infobox h3{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 14px;font-weight:500}
+  .inforow{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px solid var(--line);font-size:13px}
+  .inforow:last-child{border-bottom:0}
+  .inforow span:first-child{color:var(--muted)}
+  .inforow span:last-child{text-align:right;font-weight:500}
+  .report{font-size:13px;line-height:1.55;color:var(--muted)}
+  .report a{color:var(--accent-strong);text-decoration:none;border-bottom:1px solid var(--accent-strong);font-weight:500}
+
+  .related{padding:44px 0 60px}
+  .relgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+  @media(max-width:640px){.relgrid{grid-template-columns:1fr}}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:4px;overflow:hidden;text-decoration:none;display:block;transition:transform .14s cubic-bezier(.2,0,0,1),box-shadow .14s}
+  .card:hover{transform:translateY(-2px);box-shadow:0 2px 0 rgba(18,33,46,.08)}
+  .strip{background:var(--kraft);padding:6px 12px;font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;display:flex;justify-content:space-between}
+  .cbody{padding:15px}
+  .cbody strong{font-family:var(--display);font-size:18px;font-weight:500;display:block;margin-bottom:4px}
+  .cbody p{font-size:13px;color:var(--muted);margin:0 0 12px;line-height:1.5}
+
+  footer{border-top:1px solid var(--line);padding:28px 0 48px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  footer span{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+</style>
+</head>
+<body>
+
+<div class="previewbar">
+  <div class="wrap">
+    <span>Pratinjau halaman detail — keadaan Diuji</span>
+    <span>Contoh terisi · Excalidraw</span>
+  </div>
+</div>
+
+<header class="site">
+  <div class="wrap">
+    <div class="nav">
+      <a class="brand" href="#">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square" aria-hidden="true">
+          <path d="M11 5v38"/><path d="M11 27h26"/><path d="M11 43h20"/>
+          <rect x="19" y="13" width="13" height="14" rx="1"/><rect x="22" y="35" width="9" height="8" rx="1"/>
+        </svg>
+        <span>gudangtool</span>
+      </a>
+      <a class="back" href="#">← Kembali ke Gudang Desain</a>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="crumb"><a href="#">Gudang</a> / <a href="#">Gudang Desain</a> / Excalidraw</div>
+
+  <div class="head">
+    <div class="hrow">
+      <div>
+        <div class="statusline">
+          <span class="badge b-ver">Gratis</span>
+          <span class="badge b-mut">Tanpa akun</span>
+          <span class="checked">Terakhir diperiksa 21 Okt 2026</span>
+        </div>
+        <h1>Excalidraw</h1>
+        <p class="deck">Papan gambar sketsa untuk diagram dan wireframe.</p>
+      </div>
+      <div class="actions">
+        <a class="btn btn-primary" href="#">Buka excalidraw.com</a>
+        <span class="note">Terbuka di tab baru. Tidak perlu akun.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="layout">
+    <main>
+      <div class="block">
+        <h2>Kenapa ada di gudang</h2>
+        <p>Karena bisa dipakai tanpa akun sama sekali — jarang untuk tool gambar sekelas ini. Kami memakainya untuk membuat diagram alur dan wireframe kasar; hasilnya bisa diekspor ke PNG atau SVG tanpa watermark.</p>
+      </div>
+
+      <div class="block">
+        <h2>Batas gratis</h2>
+        <p>Ini yang kami temukan saat memakainya. Kalau ada yang berubah, tanggal di atas ikut berubah.</p>
+        <table class="limits">
+          <tr><th>Akun</th><td>Tidak perlu</td></tr>
+          <tr><th>Kuota</th><td>Tidak ada</td></tr>
+          <tr><th>Watermark</th><td>Tidak ada</td></tr>
+          <tr><th>Ekspor</th><td>PNG, SVG, dan file <code>.excalidraw</code></td></tr>
+          <tr><th>Penyimpanan</th><td>Di browser (penyimpanan lokal)</td></tr>
+        </table>
+        <div class="warn">
+          <b>Perlu diketahui</b>
+          Gambar tersimpan di browser, bukan di akun. Kalau cache dibersihkan atau kamu berpindah perangkat, gambarnya tidak ikut. Ekspor dulu sebelum menutup.
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="fit">
+          <div class="fitbox">
+            <h3>Cocok untuk</h3>
+            <p>Diagram alur, wireframe kasar, dan menjelaskan ide saat rapat.</p>
+          </div>
+          <div class="fitbox no">
+            <h3>Tidak cocok untuk</h3>
+            <p>Ilustrasi detail, desain cetak, atau pekerjaan yang butuh presisi vektor.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <h2>Kalau ini bukan yang kamu cari</h2>
+        <div class="alts">
+          <a class="alt" href="#">
+            <strong>draw.io</strong>
+            <span>Kalau butuh diagram yang tersambung ke Google Drive dan punya banyak template.</span>
+          </a>
+          <a class="alt" href="#">
+            <strong>Miro</strong>
+            <span>Kalau butuh papan kolaborasi untuk tim, bukan gambar perorangan.</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="block">
+        <h2>Riwayat pemeriksaan</h2>
+        <ul class="history">
+          <li><time>21 Okt 2026</time><span>Diperiksa. Tidak ada perubahan pada batas gratis.</span></li>
+          <li><time>12 Agu 2026</time><span>Ditambahkan ke gudang.</span></li>
+        </ul>
+      </div>
+    </main>
+
+    <aside class="aside">
+      <div class="infobox">
+        <h3>Info tool</h3>
+        <div class="inforow"><span>Kategori</span><span>Gudang Desain</span></div>
+        <div class="inforow"><span>Platform</span><span>Web</span></div>
+        <div class="inforow"><span>Status</span><span>Gratis</span></div>
+        <div class="inforow"><span>Akun</span><span>Tidak perlu</span></div>
+        <div class="inforow"><span>Diperiksa</span><span>21 Okt 2026</span></div>
+      </div>
+      <div class="infobox">
+        <h3>Ada yang berubah?</h3>
+        <p class="report">Kabari kami — kami akan memeriksanya ulang dan memperbarui tanggalnya.</p>
+        <p class="report" style="margin:10px 0 0"><a href="#">Laporkan perubahan</a></p>
+      </div>
+      <div class="infobox">
+        <p class="report" style="margin:0">Kami tidak dibayar oleh tool ini. Tautan keluar tidak memakai afiliasi.</p>
+      </div>
+    </aside>
+  </div>
+
+  <div class="related">
+    <h2>Tool lain di Gudang Desain</h2>
+    <div class="relgrid">
+      <a class="card" href="#">
+        <div class="strip"><span>Gudang Desain</span><span>Gratis</span></div>
+        <div class="cbody">
+          <strong>Photopea</strong>
+          <p>Editor gambar berbasis browser yang membuka file PSD.</p>
+          <div class="statusline" style="margin:0"><span class="badge b-mut">Tanpa akun</span><span class="badge b-mut">Didukung iklan</span></div>
+        </div>
+      </a>
+      <a class="card" href="#">
+        <div class="strip"><span>Gudang Desain</span><span>Gratis</span></div>
+        <div class="cbody">
+          <strong>unDraw</strong>
+          <p>Kumpulan ilustrasi SVG yang warnanya bisa diganti sebelum diunduh.</p>
+          <div class="statusline" style="margin:0"><span class="badge b-mut">Tanpa akun</span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<footer class="wrap">
+  <span>Gudangtool · halaman detail v1.0</span>
+  <span>Batas gratis ditulis apa adanya</span>
+</footer>
+
+</body>
+</html>
