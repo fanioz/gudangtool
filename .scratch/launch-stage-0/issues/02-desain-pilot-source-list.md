@@ -1,7 +1,7 @@
 # Ticket: Which 15 Desain tools form the pilot category?
 
 Type: research
-Status: open
+Status: resolved (answer drafted; owner decision pending)
 
 ## Question
 
@@ -16,3 +16,11 @@ The 3 seeds pass the five selection criteria in `05-seed-tools.md` §1. The othe
 The `05-seed-tools.md` §5 queue already names Penpot, Tldraw, Krita, Inkscape, GIMP, Miro — a starting point, not a decision.
 
 Deliverable: a ranked list of 12 further candidates with, for each, the criteria it is expected to satisfy, the limit that will be written, and a flag for whether it needs the owner's 10-minute real-task test.
+
+---
+
+## Answer (research complete — awaiting owner decision)
+
+Findings in [`02-answer.md`](02-answer.md). Every limit cites the vendor URL checked; §6 of that file lists the seven claims that could not be verified at all.
+
+Headline: **8 of the 12 clear all five criteria cleanly.** The remaining 4 carry a caveat that only the owner's real-task test can settle. All 15 are vendor-*claimed* limits, not exercised limits — `verified_at` belongs to the human test, not to this document.
