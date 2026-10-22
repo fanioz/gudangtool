@@ -30,7 +30,7 @@ Sebuah tool masuk daftar hanya kalau memenuhi kelima syarat ini:
 | 2 | **ChatGPT** | AI | Asisten percakapan untuk menulis, meringkas, dan menjelaskan | Freemium | Model terbaru punya kuota pesan harian; sisanya jatuh ke model lebih kecil | Standar pembanding untuk hampir semua tugas teks |
 | 3 | **Hugging Face** | AI | Repositori model dan demo AI yang bisa dicoba di browser | Gratis | Sebagian demo butuh antrean atau GPU berbayar | Tempat mencoba model baru sebelum tool komersial menyalinnya |
 | 4 | **Excalidraw** | Desain | Papan gambar sketsa untuk diagram dan wireframe | Gratis | Kolaborasi lewat tautan; data tersimpan di browser | Tanpa akun dan langsung bisa dipakai — jarang untuk tool sekelas ini |
-| 5 | **Photopea** | Desain | Editor gambar berbasis browser yang membuka file PSD | Gratis | Didukung iklan; fitur lanjutan butuh langganan | Satu-satunya editor PSD gratis yang tidak perlu dipasang |
+| 5 | **Photopea** | Desain | Editor gambar berbasis browser yang membuka file PSD | Gratis | Didukung iklan; Premium opsional (satu kali bayar) — batas gratis belum terverifikasi | Satu-satunya editor PSD gratis yang tidak perlu dipasang |
 | 6 | **unDraw** | Desain | Kumpulan ilustrasi SVG yang warnanya bisa diganti sebelum diunduh | Gratis | Lisensi bebas pakai; tidak semua ilustrasi punya semua gaya | Ilustrasi yang tidak terasa seperti stok foto |
 | 7 | **HandBrake** | Video | Mengubah format dan mengecilkan ukuran video | Gratis | Perlu dipasang; antarmuka cukup teknis | Transcoder yang dipakai profesional, gratis dan open source |
 | 8 | **Shotcut** | Video | Editor video non-linear untuk potong, gabung, dan ekspor | Gratis | Perlu dipasang; belajar awalnya cukup curam | Editor lengkap tanpa watermark dan tanpa akun |
@@ -105,6 +105,7 @@ Status dan batas di tabel disusun dari pengetahuan umum per Oktober 2026 dan **b
 - **Canva** — elemen mana yang berbayar bisa berubah tanpa pengumuman.
 - **Raycast** — pemisahan fitur gratis dan berbayar.
 - **Google AI Studio** — kuota harian per model.
+- **Photopea** — batas gratis tidak ditulis di halaman mana pun yang bisa dibaca; halaman privasi hanya menyebut Premium sebagai pembayaran satu kali. Jangan tulis klaim apa pun sebelum diuji.
 
 Kalau salah satu dari lima ini tidak bisa diverifikasi dalam 10 menit, keluarkan dari peluncuran pertama. Lebih baik 15 tool yang benar daripada 20 yang setengahnya perlu dikoreksi di hari kedua.
 
