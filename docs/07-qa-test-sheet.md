@@ -1,173 +1,196 @@
-# Gudangtool — Lembar Uji 5 Tool Paling Rawan v1.1
+# Gudangtool — Protokol Verifikasi Hibrida v2.0
 
-> **Status:** protokol ini hanya berlaku untuk tool yang akan diberi label **Diuji**. Entri **Terdaftar** tidak melewati protokol ini dan tidak boleh menampilkan klaim gratis.
+> **Status:** menggantikan v1.1. Protokol ini hanya berlaku untuk tool berlabel **Diuji**. Entri **Terdaftar** tidak melewati protokol ini dan tidak boleh menampilkan klaim gratis.
 
-**Tanggal:** 21 Oktober 2026
-**Untuk:** penanggung jawab kurasi
-**Total waktu:** 75 menit (15 menit per tool)
-**Keluaran:** status final + batas satu baris + `verified: true` di `tools.json`
-
----
-
-## 0. Aturan main
-
-1. **Pakai akun uji khusus**, bukan akun pribadi yang berisi data klien. Kalau tool meminta akses Google Drive, berikan akun kosong.
-2. **Uji dengan file milik sendiri.** Jangan mengunggah materi berhak cipta atau data orang lain.
-3. **Timebox 15 menit per tool.** Kalau lewat 15 menit dan status belum jelas, hentikan dan tandai `TUNDA` — jangan menebak.
-4. **Ambil bukti.** Satu tangkapan layar untuk hasil ekspor, satu untuk halaman batas/kuota. Nama file: `{tool}-{YYYY-MM-DD}-{01}.png`.
-5. **Jangan memperbaiki tool.** Kalau ada bug, catat, jangan laporkan ke vendor atas nama Gudangtool tanpa persetujuan.
+**Tanggal:** 22 Oktober 2026
+**Menggantikan:** v1.1 (protokol tunggal 15 menit)
+**Dasar:** D18 #5 · hasil riset `.scratch/launch-stage-0/issues/02-answer.md`
+**Keluaran:** `diuji` hanya jika **kedua** bagian selesai — pengamatan mekanis dan uji tugas nyata oleh pemilik.
 
 ---
 
-## 1. Empat status final
+## 1. Dua bagian, satu label
 
-| Status | Definisi | Syarat |
+Label **Diuji** berarti dua hal sekaligus: *kami sudah membaca halaman batasnya* dan *seseorang benar-benar memakainya*. Keduanya perlu tanggal sendiri, karena keduanya bisa kedaluwarsa terpisah.
+
+| Bagian | Siapa | Yang dihasilkan | Field |
+|---|---|---|---|
+| **Mekanis** | Agent | `limits`, `platform`, `url`, URL vendor untuk setiap klaim, warna status | `observed_at`, `observed_by` |
+| **Tugas nyata** | Pemilik proyek | `why`, `fit`, `not_fit`, konfirmasi atau koreksi `limits` | `verified_at` |
+
+**Aturan mutlak:** `tier` berubah menjadi `diuji` hanya setelah **`observed_at` dan `verified_at` sama-sama terisi**. Satu bagian saja tetap `terdaftar`.
+
+**Konsekuensi yang disengaja:** `verified_at` selalu tanggal manusia memakai tool itu. Tool yang sudah diamati agent tetapi belum dicoba manusia tetap `terdaftar` — dan itu boleh dikatakan terang-terangan di halaman.
+
+---
+
+## 2. Bagian mekanis (agent)
+
+Untuk setiap tool, dalam satu sesi, tanpa mengubah apa pun di akun pemilik:
+
+1. Buka URL resmi di jendela privat. Catat apakah langsung meminta login.
+2. Cari halaman harga, kuota, atau bantuan. **Catat URL-nya** — setiap klaim harus punya sumber.
+3. Baca halaman lisensi atau repositori untuk tool open source; "tidak ada batas" karena lisensi adalah klaim yang paling mudah dipertahankan.
+4. Isi lima field `limits`: `account`, `quota`, `watermark`, `export`, `storage`.
+5. Kalau satu field tidak bisa ditentukan tanpa akun atau tanpa uji, tulis **"Belum diperiksa"** — bukan tebakan, bukan "tidak ada".
+6. Tulis `observed_at` (tanggal) dan `observed_by` (`agent` atau nama orang).
+7. Simpan URL sumber tiap klaim di `internal_note`, satu per baris, format `field: URL`.
+
+**Yang dilarang di bagian ini:** menulis `fit`, `not_fit`, atau `why`. Itu penilaian manusia, bukan hasil membaca halaman.
+
+**Kalau klaim vendor bertentangan dengan yang Anda lihat:** yang Anda lihat menang untuk `limits`. Klaim vendor tetap dicatat di `internal_note` beserta URL-nya sebagai jejak audit.
+
+---
+
+## 3. Bagian tugas nyata (pemilik)
+
+Timebox **10 menit** per tool. Akun uji khusus, bukan akun pribadi. Hanya file milik sendiri.
+
+1. Kerjakan satu tugas nyata sampai selesai — bukan melihat halaman depan.
+2. Ekspor atau simpan hasilnya.
+3. Cari langkah yang biasanya dikunci: ekspor resolusi tinggi, format tertentu, fitur bertanda Pro.
+4. **Konfirmasi atau koreksi** `limits` dari bagian mekanis. Kalau berbeda, koreksi field-nya — versi Anda yang berlaku.
+5. Tulis `why` (satu kalimat, alasan tool ini masuk), `fit`, dan `not_fit`.
+6. Ambil satu tangkapan layar hasil ekspor dan satu untuk halaman batas/kuota.
+7. Isi `verified_at` dengan tanggal uji.
+
+**Aturan penentu:** kalau ragu antara Gratis dan Freemium, pilih **Freemium**.
+
+---
+
+## 4. Tiga jalur keluar
+
+Setiap tool berakhir di salah satu dari tiga keadaan. Tidak ada keadaan keempat.
+
+| Keadaan | Kapan | Yang tertulis di katalog |
 |---|---|---|
-| **Gratis** | Tugas inti bisa diselesaikan tanpa membayar | Tanpa kartu kredit, tanpa watermark pada hasil, batas jelas |
-| **Freemium** | Ada versi gratis dengan batas | Batas bisa dijelaskan dalam satu baris |
-| **Butuh akun** | Gratis, tapi wajib mendaftar sebelum bisa dipakai | Akun gratis, tanpa kartu |
-| **Tolak** | Tidak layak masuk gudang | Butuh kartu kredit, trial berbatas waktu, atau batas tidak dapat dijelaskan |
+| **Diuji** | Kedua bagian selesai | Tabel batas lengkap, `why`/`fit`/`not_fit`, dua tanggal |
+| **Terdaftar** | Hanya bagian mekanis selesai, **atau** batas tidak bisa ditentukan dalam timebox | Nama, fungsi, kategori, platform, URL. Tidak ada klaim. |
+| **Tidak masuk** | Ditolak kriteria seleksi (kartu kredit, trial berbatas waktu, ekspor berwatermark tersembunyi) | Tidak ada entri |
 
-**Aturan penentu:** kalau ragu antara Gratis dan Freemium, pilih **Freemium**. Label yang lebih konservatif selalu lebih aman daripada klaim yang berlebihan.
-
----
-
-## 2. Prosedur umum (berlaku untuk semua tool)
-
-| Menit | Langkah | Yang dicatat |
-|---|---|---|
-| 0–2 | Buka URL di jendela privat | Apakah langsung meminta login? |
-| 2–7 | Kerjakan satu tugas nyata sampai selesai | Berhasil? Di langkah mana macet? |
-| 7–10 | Ekspor atau simpan hasil | Format apa? Ada watermark? |
-| 10–12 | Cari halaman harga/kuota | Angka batasnya berapa? |
-| 12–14 | Coba langkah yang biasanya dikunci | Muncul ajakan berlangganan? |
-| 14–15 | Tulis status + batas satu baris | Simpan bukti |
+**Tool yang gagal verifikasi tidak ditahan di antrean.** Ia turun ke `terdaftar` — itu memang slot untuk "kami tahu ia ada, kami tidak mengklaim apa pun". `kandidat` tetap hanya status antrean impor dan tidak pernah tayang.
 
 ---
 
-## 3. CapCut — risiko: watermark dan batas ekspor
+## 5. Bukti: di mana disimpan
 
-**Yang paling mungkin berubah:** kebijakan watermark, resolusi ekspor, dan fitur yang dikunci untuk pengguna gratis.
+**Screenshots di luar repo.** Git menyimpan teks, bukan PNG; 3.000 tool × 2 tangkapan layar akan membengkakkan repo selamanya dan memperlambat setiap clone.
+
+- Lokasi: `~/gudangtool-evidence/{slug}/{YYYY-MM-DD}-{01}.png`, di luar repo.
+- Di setiap file JSON tool, `internal_note` mencatat path relatifnya: `evidence: {slug}/{YYYY-MM-DD}-{01}.png`.
+- `internal_note` **tidak pernah dirender** — ia hanya jejak audit untuk peninjau PR.
+- Kalau pemilik ingin bukti ikut di repo, pindahkan folder ke `qa/evidence/` dan tambahkan ke `.gitignore` per folder; keputusan tetap di pemilik.
+
+**Yang wajib ada di `internal_note` untuk setiap entri `diuji`:** URL sumber tiap klaim, plus path bukti. Tanpa keduanya, PR ditolak.
+
+---
+
+## 6. Perubahan skema yang dibutuhkan
+
+Protokol ini menambah dua field ke skema `14-repo-spec.md` §4:
+
+| Field | Tipe | Wajib | Aturan |
+|---|---|---|---|
+| `observed_at` | date/null | ya untuk `diuji`, null untuk `terdaftar` | Boleh lebih awal dari `verified_at` |
+| `observed_by` | `"agent"` atau string nama | ya untuk `diuji`, null untuk `terdaftar` | Siapa yang menjalankan bagian mekanis |
+
+Aturan build yang ditambahkan: `tier = diuji` gagal build jika `observed_at` atau `verified_at` kosong.
+
+---
+
+## 7. Protokol uji spesifik per tool — 5 paling rawan
+
+Pemilihan berdasarkan **risiko × konsekuensi**, bukan popularitas. Detail kandidat ada di `.scratch/launch-stage-0/issues/02-answer.md` §4.
+
+## 8. Figma — risiko: batas file tidak lagi tertulis di halaman harga
+
+**Yang paling mungkin berubah:** batas file kolaboratif, riwayat versi, dan apa yang masuk Pro.
+
+Halaman harga hanya menyebut "Unlimited drafts"; angka "3 file kolaboratif" hanya ada di blog Figma tahun 2024.
 
 **Uji wajib:**
-1. Buka `capcut.com` di jendela privat — bisa mulai proyek tanpa login?
-2. Buat video 15 detik dari dua klip, tambahkan subtitle otomatis.
-3. Ekspor 1080p. **Periksa pojok kanan bawah** hasil ekspor: ada watermark?
-4. Ulangi ekspor 4K. Apakah diminta upgrade?
-5. Cek template yang ditandai "Pro" — berapa proporsinya di halaman depan?
-6. Cari halaman harga: apa yang didapat versi gratis?
+1. Buat file desain baru di akun gratis.
+2. Undang akun kedua sebagai editor. Berapa file yang bisa dibagi sebelum diblokir?
+3. Cek riwayat versi: 30 hari atau lebih?
+4. Coba prototipe dengan kondisi (conditional logic) — terkunci?
+5. Cari halaman harga: fitur mana yang khusus Pro?
 
-**Tanda bahaya:**
-- Ekspor 1080p kena watermark → status **Freemium**, tulis "watermark pada ekspor 1080p".
-- Muncul trial dengan kartu kredit → **Tolak**.
-- Subtitle otomatis hanya untuk pengguna Pro → tulis jelas di batas.
-
-**Keputusan:** kalau watermark hanya di fitur tertentu (bukan ekspor dasar), tetap Freemium dan sebutkan fitur mana yang bersih.
+**Keputusan:** tulis batas sesuai yang **Anda alami**, bukan yang blog katakan. Kalau angka berbeda dari 3, itu yang tayang.
 
 ---
 
-## 4. Adobe Podcast Enhance — risiko: batas durasi dan kuota
+## 9. Tldraw — risiko: vendor tidak menulis batasnya di mana pun
 
-**Yang paling mungkin berubah:** panjang audio maksimum, kuota harian, dan syarat akun.
+**Yang paling mungkin berubah:** syarat berbagi tautan dan kolaborasi tamu.
+
+halaman publik hanya menyebut "free whiteboard"; tombol berbagi membaca "Sign in to share", tetapi tidak jelas apakah itu dinding keras atau sekadar ajakan.
 
 **Uji wajib:**
-1. Buka `podcast.adobe.com/enhance` tanpa login — langsung diarahkan ke halaman masuk?
-2. Masuk dengan Adobe ID gratis (bukan akun Creative Cloud berbayar).
-3. Unggah rekaman 5 menit dengan suara sendiri. Catat waktu proses.
-4. Unggah rekaman 30 menit. Berhasil, atau ada pesan batas?
-5. Unduh hasilnya. Format apa? Ada tanda air audio?
-6. Cari keterangan kuota: berapa file per hari/bulan?
+1. Buka tldraw.com tanpa akun — bisa menggambar sepenuhnya?
+2. Simpan sebagai file lokal — berhasil?
+3. Klik berbagi tanpa akun — apa yang terjadi?
+4. Coba buat tautan tamu yang bisa diedit dari akun kedua.
+5. Cari halaman harga atau bantuan — ada batas tertulis?
 
-**Tanda bahaya:**
-- Batas durasi di bawah 10 menit → sebutkan angkanya, jangan tulis "ada batas".
-- Kuota harian sangat kecil (mis. 1 file/hari) → tetap Freemium, tapi turunkan prioritas di daftar.
-- Diminta langganan Creative Cloud untuk mengunduh → **Tolak**.
-
-**Keputusan:** catat batas dalam format "{X} menit per file, {Y} file per {periode}".
+**Keputusan:** kalau tautan tamu bisa diedit tanpa akun, `requires_account` = false dan batasnya ditulis "berbagi tautan butuh akun" hanya jika terbukti. Kalau kolaborasi tanpa akun bekerja, itu keunggulan, bukan batas.
 
 ---
 
-## 5. Canva — risiko: elemen berbayar yang tidak terlihat
+## 10. remove.bg — risiko: situs mandiri ditutup 1 Desember 2026
 
-**Yang paling mungkin berubah:** proporsi template gratis, syarat ekspor transparan, dan batas folder.
+Banner di halaman harga menyatakan pemindahan ke Canva dan penutupan situs mandiri per 1 Des 2026, 09.00 CET.
 
 **Uji wajib:**
-1. Buka `canva.com` tanpa login — bisa membuat desain?
-2. Masuk dengan akun gratis. Pilih template "Instagram Post" dari daftar teratas.
-3. Hitung berapa elemen bertanda mahkota dalam template itu (perkiraan cukup).
-4. Ekspor PNG. Lalu coba ekspor PNG transparan (hapus latar).
-5. Cek apakah ekspor transparan meminta Pro.
-6. Cari halaman harga: apa yang dikunci di versi gratis?
+1. Unggah foto potret, tanpa akun. Hasilnya pratinjau resolusi berapa?
+2. Unduh pratinjau — bisa dipakai (mis. untuk thumbnail)?
+3. Coba unduh resolusi penuh — berapa kredit, dan apakah akun wajib?
+4. Buka halaman `/id` — apakah banner tanggal yang sama muncul?
+5. Catat tanggal banner persis.
 
-**Tanda bahaya:**
-- Ekspor standar kena watermark → **Tolak** (Canva tidak seharusnya begitu; kalau terjadi, ada perubahan besar).
-- Template gratis hanya sedikit di kategori populer → tulis "mayoritas template populer berbayar".
-- Trial 30 hari yang menuntut kartu → jangan tulis "gratis", tulis "Pro trial".
-
-**Keputusan:** Canva tetap **Freemium**; yang menentukan adalah seberapa jujur batasnya ditulis, bukan apakah ada fitur berbayar.
+**Keputusan:** halaman detail wajib memuat catatan "status ini kedaluwarsa per 1 Desember 2026". Tanpa catatan itu, tool tidak boleh tayang sebagai Diuji.
 
 ---
 
-## 6. Raycast — risiko: fitur inti yang bergeser ke Pro
-
-**Yang paling mungkin berubah:** pemisahan fitur gratis vs Pro, dan ketersediaan platform.
+## 11. Penpot — risiko: tumpang tindih dengan Figma
 
 **Uji wajib:**
-1. Pasang di macOS. Bisa dipakai tanpa akun?
-2. Uji tiga fitur inti: peluncur aplikasi, riwayat clipboard, dan manajemen jendela.
-3. Uji satu fitur AI. Berapa banyak permintaan gratis sebelum diminta upgrade?
-4. Cari halaman harga: fitur mana yang khusus Pro?
-5. Cek apakah tersedia untuk Windows (kalau belum, tulis "khusus macOS").
-6. Cek apakah data clipboard disimpan lokal atau cloud.
+1. Buat proyek di plan gratis cloud.
+2. Undang anggota tim sampai batas 8 tercapai.
+3. Ekspor sebagai CSS/SVG — apakah perlu plan berbayar?
+4. Cek riwayat versi: 7 hari?
+5. Coba fitur yang di Figma berbayar (prototipe lanjutan, pustaka tim) — gratis di sini?
 
-**Tanda bahaya:**
-- Fitur inti (clipboard, jendela) masuk Pro → status berubah jadi **Freemium** dengan catatan tegas.
-- Wajib akun hanya untuk membuka aplikasi → tulis "Butuh akun".
-- Data clipboard dikirim ke cloud tanpa pilihan lokal → catat sebagai risiko privasi.
-
-**Keputusan:** kalau tiga fitur inti tetap gratis, status **Gratis** dengan catatan "fitur AI berbayar".
+**Keputusan:** kalimat pembeda dengan Figma wajib ada di halaman: Penpot untuk ekspor standar web dan pemasangan sendiri; Figma untuk prototipe interaktif dan ekosistem. Kalau perbedaan itu tidak bisa ditulis satu baris, salah satu keluar dari katalog.
 
 ---
 
-## 7. Google AI Studio — risiko: kuota harian per model
-
-**Yang paling mungkin berubah:** kuota gratis per model, ketersediaan model baru, dan syarat billing.
+## 12. SVG Viewer — risiko: tanpa halaman harga, tanpa pembaruan sejak 2019
 
 **Uji wajib:**
-1. Buka `aistudio.google.com` dengan akun Google kosong.
-2. Jalankan prompt teks panjang (sekitar 1.000 kata) pada model default.
-3. Unggah satu gambar dan satu PDF; minta ringkasannya.
-4. Ulangi sampai muncul pesan kuota. Catat berapa permintaan yang berhasil.
-5. Cari halaman harga/kuota: apakah ada model yang meminta billing aktif?
-6. Cek catatan privasi: apakah data uji dipakai untuk pelatihan?
+1. Buka svgviewer.dev tanpa akun — bisa mengunggah SVG?
+2. Optimalkan satu SVG yang berantakan — berapa node yang hilang?
+3. Unduh hasilnya — apa ada dinding atau kredit AI?
+4. Cermati fitur "Edit with AI" dan "Create" di sidebar — dikunci?
+5. Cari halaman syarat atau privasi — masih tanggal 2019?
 
-**Tanda bahaya:**
-- Model default langsung meminta billing → gunakan model lain yang gratis, atau **Tolak**.
-- Kuota sangat kecil (mis. 5 permintaan/hari) → tulis angkanya; masih layak, tapi jangan diposisikan sebagai pengganti harian.
-- Data pelatihan tidak bisa dimatikan → catat sebagai peringatan privasi di kartu.
-
-**Keputusan:** tulis batas dalam format "{X} permintaan per {periode} untuk model {nama}".
+**Keputusan:** kalau ada dinding ekspor atau kredit, ganti ke **SVGOMG** dan jangan simpan keduanya. Kalau tidak ada dinding tetapi situs tidak dipelihara, tayang sebagai Diuji dengan catatan "tidak ada pembaruan terlihat sejak 2019".
 
 ---
 
-## 8. Cara mengisi hasil
+## 13. Mengisi hasil
 
-Setelah selesai, isi `test-sheet.csv` dengan aturan:
-
-- **`status_final`** — salah satu dari empat status di bagian 1.
-- **`batas_satu_baris`** — kalimat yang akan dibaca pengunjung. Contoh: "Watermark di semua ekspor 1080p; 4K khusus Pro."
-- **`verified`** — `true` hanya kalau bukti sudah diambil dan batas sudah ditulis.
-- **`checked_at`** — tanggal uji, format `YYYY-MM-DD`.
-- **`catatan`** — hal yang tidak masuk kategori lain, misalnya "UI berbahasa Inggris".
-
-Kalau satu tool gagal di salah satu uji wajib, **keluarkan dari peluncuran pertama**. Gudang dengan 15 tool yang benar lebih kuat daripada 20 tool yang dua di antaranya perlu dikoreksi di hari kedua.
+- **`price_status`** — `gratis`, `freemium`, atau `butuh-akun`.
+- **`limits`** — lima field; nilai yang tidak ada batasnya ditulis "Tidak ada".
+- **`why`** — satu kalimat yang dibaca pengunjung.
+- **`verified_at`** — tanggal uji tugas nyata.
+- **`observed_at`** — tanggal pengamatan mekanis.
+- **`internal_note`** — sumber tiap klaim + path bukti. Tidak pernah dirender.
 
 ---
 
-## 9. Setelah pengujian
+## 14. Setelah pengujian
 
-- [ ] Perbarui `tools.json`: `status`, `limits`, `why`, `verified`, `checked_at`
-- [ ] Tambahkan baris riwayat di halaman detail: "Diperiksa. {perubahan}."
-- [ ] Simpan bukti tangkapan layar di folder `qa/evidence/{slug}/`
-- [ ] Kalau status berubah dari perkiraan awal, perbarui juga ringkasan di `seed-tools.md`
-- [ ] Laporkan ke pemilik proyek: berapa yang lolos, berapa yang ditolak, dan alasannya
+- [ ] `tier` menjadi `diuji` hanya jika `observed_at` dan `verified_at` keduanya terisi
+- [ ] Riwayat di halaman detail: "Diperiksa {verified_at}. {perubahan}."
+- [ ] Kalau status berubah dari perkiraan awal, perbarui ringkasan di `05-seed-tools.md`
+- [ ] Laporkan ke pemilik: berapa lolos, berapa turun ke `terdaftar`, dan alasannya
