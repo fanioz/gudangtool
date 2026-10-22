@@ -18,11 +18,11 @@ A Stage 0 site running from `~/code/blog/gudangtool` (git repo → GitHub → Ac
 - Standing rule: never write "gratis" on a `terdaftar` entry. Build must fail on violation.
 - The `research` and `prototype` skills referenced by wayfinder are **not installed** in this environment. Research tickets use the `Agent` tool (`general-purpose`) instead.
 - `sumoclaw` VPS is down. `sumojak` (2 vCPU / 1.9 GB, Caddy installed) is the target. `sumocabinet` is spare capacity.
-- `~/code/blog/gudangtool` is empty except `docs/` and `.DS_Store`.
+- Repo lives in **this folder**, `git init` on `main`, pushed to `github.com/fanioz/gudangtool` (private). `~/code/blog/gudangtool` is ignored from here on.
 
 ## Decisions so far
 
-<!-- one line per closed ticket -->
+- [Locked decisions need a decision-log entry](issues/01-locked-decisions-need-a-decision-log-entry.md): Six launch decisions recorded as **D18**. Repo is the workspace folder, `D13` superseded, manifest `fanioz/gudangtool` (private). Unblocks tickets 08–12.
 
 ## Not yet specified
 
