@@ -57,30 +57,17 @@ Resolved when: a placeholder `index.html` is reachable at the domain over HTTPS,
 
 A. **Root sekali di sumojak** (kebijakan proyek melarang agent memakai sudo):
 
+Daftar periksa lengkapnya sudah menjadi runbook di repo: [`docs/deploy/runbook-launch.md`](../../../docs/deploy/runbook-launch.md), dengan blok Caddy siap ditempel di [`docs/deploy/Caddyfile.gudangtool`](../../../docs/deploy/Caddyfile.gudangtool).
+
 ```bash
 ssh sumojak
 sudo mkdir -p /var/www/gudangtool/releases
 sudo chown -R ubuntu:ubuntu /var/www/gudangtool
-sudo tee -a /etc/caddy/Caddyfile <<'EOF'
-
-gudangtool.web.id {
-	root * /var/www/gudangtool/current
-	encode gzip zstd
-	header {
-		-Server
-		Strict-Transport-Security "max-age=31536000"
-		X-Content-Type-Options "nosniff"
-		Referrer-Policy "strict-origin-when-cross-origin"
-	}
-	@astro path /_astro/*
-	header @astro Cache-Control "public, max-age=31536000, immutable"
-	header Cache-Control "public, max-age=0, s-maxage=1800, stale-while-revalidate=86400"
-}
-EOF
+sudo tee -a /etc/caddy/Caddyfile < docs/deploy/Caddyfile.gudangtool
 sudo caddy validate --config /etc/caddy/Caddyfile && sudo systemctl reload caddy
 ```
 
-Catatan: `encode gzip zstd` mengikuti Caddyfile yang berjalan (Brotli bukan bawaan Caddy standar) — menyimpang dari §12 "Brotli/gzip"; dicatat sebagai fakta, bukan perubahan spec. Blok `404` kustom menyusul bersama scaffold (placeholder belum punya 404.html).
+Catatan: `/var/www` sendiri **belum ada** di sumojak (diverifikasi 2026-10-23) — `mkdir -p` yang membuatnya. `encode gzip zstd` mengikuti Caddyfile yang berjalan (Brotli bukan bawaan Caddy standar) — menyimpang dari §12 "Brotli/gzip"; dicatat sebagai fakta, bukan perubahan spec. Blok `404` kustom menyusul bersama scaffold (placeholder belum punya 404.html).
 
 B. **Cloudflare** (akun pemilik): tambah zona `gudangtool.web.id` + `gudangtools.web.id` (Free, satu akun). Zona gudangtool: `A @ → 43.173.26.57` proxy oranye. Zona gudangtools: `A @ → 192.0.2.1` proxy oranye (dummy; redirect menyala di edge) + **Bulk Redirect** 301 `gudangtools.web.id/*` → `https://gudangtool.web.id` + SSL mode **Full (strict)** di kedua zona.
 
@@ -95,3 +82,13 @@ gh workflow run deploy.yml -R fanioz/gudangtool
 ```
 
 Placeholder harus hidup di `https://gudangtool.web.id`. Lalu satu commit isi (misal ubah kalimat placeholder) membuktikan swap via CI — kondisi "resolved when" tercapai dan tiket ini bisa ditutup.
+
+### 2026-10-23 (sesi kedua) — checklist dipindah ke runbook, preflight ditambahkan
+
+Pemilik belum menjalankan langkah manual (diverifikasi: `/var/www` belum ada, Caddyfile sumojak belum berubah, delegasi NS `gudangtool.web.id` masih kosong). Supaya langkah HITL semurah mungkin:
+
+- Checklist A–D dipindah ke [`docs/deploy/runbook-launch.md`](../../../docs/deploy/runbook-launch.md) — termasuk tabel verifikasi akhir (curl, `readlink`, `ls releases`) dan tabel pemecahan masalah (host key berubah, sertifikat belum terbit, 525/526, 404 placeholder).
+- Blok Caddy dipisah ke [`docs/deploy/Caddyfile.gudangtool`](../../../docs/deploy/Caddyfile.gudangtool) — owner menempel file yang sudah direview, bukan menyalin dari komentar.
+- Pipeline tambah langkah **"Cek prasyarat di VPS"** sebelum rsync. Kegagalan sekarang berhenti dengan pesan yang menyebut runbook, bukan `Permission denied` mentah. Terbukti di run [39938660476](https://github.com/fanioz/gudangtool/actions/runs/39938660476): gagal tepat di preflight dengan pesan "Jalankan langkah A di docs/deploy/runbook-launch.md".
+
+Status tiket tetap **claimed** — hanya pemilik yang bisa menyelesaikan langkah A–C.

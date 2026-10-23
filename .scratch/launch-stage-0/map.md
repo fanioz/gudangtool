@@ -19,6 +19,7 @@ A Stage 0 site running from `~/code/blog/gudangtool` (git repo → GitHub → Ac
 - The `research` and `prototype` skills referenced by wayfinder are **not installed** in this environment. Research tickets use the `Agent` tool (`general-purpose`) instead.
 - `sumoclaw` VPS is down. `sumojak` (2 vCPU / 1.9 GB, Caddy installed) is the target. `sumocabinet` is spare capacity.
 - Repo lives in **this folder**, `git init` on `main`, pushed to `github.com/fanioz/gudangtool` (private). `~/code/blog/gudangtool` is ignored from here on.
+- Launch runbook lives in `docs/deploy/runbook-launch.md`; the Caddy site block in `docs/deploy/Caddyfile.gudangtool`. The deploy pipeline has a preflight step that points to the runbook when the VPS prerequisite is missing.
 
 ## Decisions so far
 
