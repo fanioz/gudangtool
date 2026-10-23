@@ -34,6 +34,7 @@ A Stage 0 site running from `~/code/blog/gudangtool` (git repo → GitHub → Ac
 - [What is the minimum a `terdaftar` entry carries?](issues/05-terdaftar-entry-data-floor.md): Dua ambang — `diuji` 3 data unik, `terdaftar` 2. Field wajib (`function`) dan "Belum diperiksa" tidak dihitung; yang dihitung platform + alternatif `diuji`. Halaman tanpa alternatif `diuji` tetap tayang `noindex, follow`. Keunikan per halaman, bukan lintas halaman.
 - [How do 50 tool files get written?](issues/07-content-authoring-pipeline.md): Impor awal satu PR batch (konversi seed + 30 tulis tangan); koreksi menyusul satu file per PR. Tulis dulu sebagai `terdaftar`, naik kelas belakangan — satu PR kecil per uji tuntas. Pemilik menulis `why`/`fit`/`not_fit` sendiri (boleh kasar), agent hanya memformat.
 - [What is the DNS and email topology?](issues/09-dns-and-email-topology.md): Satu zona Cloudflare untuk kedua domain; 301 `gudangtools`→`gudangtool` di Bulk Redirects (edge); VPS `sumojak` (A record, orange cloud); `halo@` lewat Brevo domain terverifikasi; SSH tetap publik + kunci. Verifikasi manual: dukungan delegasi NS `.web.id` di panel PANDI.
+- [How is the Astro scaffold structured?](issues/15-astro-scaffold-structure.md): **D26** — token CSS (`tokens.css`) + scoped style per komponen; font self-host subset WOFF2 ≤120 KB; Pagefind tetap (Lighthouse <85 = pemicu revisit); set komponen launch + kondisional, tanpa Pagination. Gerbang scaffolding dibuka awal oleh pemilik; fog scaffolding selesai.
 
 ## Not yet specified
 

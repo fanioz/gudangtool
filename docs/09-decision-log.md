@@ -362,6 +362,32 @@ Catatan keputusan berurutan, alasan di baliknya, dan hal-hal yang sudah tidak be
 
 ---
 
+### D26. Struktur scaffold Astro Stage 0
+
+**Keputusan:** token identitas menjadi satu file CSS custom properties dengan style komponen yang di-scope per komponen Astro; tiga font di-host sendiri sebagai subset WOFF2; pencarian tetap memakai Pagefind; komponen launch dibatasi pada set inti plus komponen kondisional. Gerbang scaffolding dibuka lebih awal oleh pemilik (2026-10-23) — keputusan struktur tidak menunggu tiket 11 tutup.
+
+| Hal | Keputusan |
+|---|---|
+| CSS | `src/styles/tokens.css` (custom properties dari `02-visual-identity.md` §4) + `<style>` scoped per komponen; kelas layout semantik seminimal mungkin di global |
+| Font | Self-host subset WOFF2 (Space Grotesk, Inter, JetBrains Mono; Latin + Latin-ext), total ≤120 KB; nol permintaan ke pihak ketiga |
+| Pencarian | Pagefind tetap (`12-tech-stack.md` tidak berubah); Lighthouse menjadi pemicu revisit — bila mobile <85, turun ke indeks JSON + filter vanilla dengan entri decision log baru |
+| Komponen launch | Header, Footer, SearchBox, ToolCard (mode penuh + ringkas), CategoryCard, Badge & PriceLabel, LabelExplainer, SubmitBand; kondisional menyusul: RankRow (tiket 14), CollectionCard (koleksi ≥10 tool), AdSlot (bila varian A tiket 10 yang menang); Pagination tidak di launch (kategori terbesar 15 tool, satu halaman) |
+
+**Alasan:**
+
+- Token sebagai CSS variables adalah bahasa yang sudah ditulis `02-visual-identity.md` §13 ("Token warna sebagai CSS variables dan file JSON") — scoped style menjaga komponen tetap mandiri tanpa dependensi baru.
+- Self-host konsisten dengan postur privasi ticket 08 (daftar pihak ketiga bertanggal; Google Fonts tidak masuk daftar itu) dan mengontrol LCP di mobile.
+- Pagefind di 50 halaman murah (UI ~10 KB, indeks diambil lazy) dan sudah terkunci; menggantinya sekarang adalah biaya keputusan tanpa keuntungan yang terukur.
+- Komponen tak terpakai saat launch melanggar semangat "tidak ada yang tayang setengah jadi" — komponen kondisional lahir bersama datanya.
+
+**Konsekuensi:**
+
+- Build handoff bisa mulai tanpa keputusan tersisa dari fog scaffolding; langkah "Stage dist" di pipeline deploy diganti `npm ci && npm run build` saat scaffold masuk, dan `site/` dihapus.
+- Subset font adalah langkah sekali di awal; file WOFF2 hasil subset masuk repo.
+- Fog "Design token → CSS delivery" dan "Search at 50 pages" selesai — keduanya hidup sebagai bagian keputusan ini.
+
+---
+
 ## Hal yang sudah kedaluwarsa
 
 | Materi | Status | Tindakan |

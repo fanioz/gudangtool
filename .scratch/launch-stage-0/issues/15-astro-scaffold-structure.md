@@ -1,7 +1,7 @@
 # Ticket: How is the Astro scaffold structured?
 
 Type: grilling
-Status: claimed
+Status: resolved
 
 ## Question
 
@@ -28,3 +28,16 @@ With the stack locked (Astro 5 + JSON content collections + Zod + Pagefind), how
 **Batasan penerimaan (DoD AGENTS.md §6):** Lighthouse mobile performa ≥85, SEO 100, aksesibilitas ≥95; tanpa layout shift dari iklan/gambar; `check`, `validate:content`, `build`, `check:links` lulus.
 
 **Konsekuensi keputusan:** struktur komponen dan CSS menentukan bentuk semua PR konten berikutnya (tiket 07: impor batch), dan keputusan search menentukan apakah `12-tech-stack.md` perlu revisi + entri decision log sebelum scaffold pertama.
+
+## Answer
+
+**2026-10-23 — sesi grilling langsung dengan pemilik; keempat rekomendasi diterima semua.** Tercatat sebagai **D26** di `docs/09-decision-log.md`.
+
+| Keputusan | Pilihan |
+|---|---|
+| CSS | Token di `src/styles/tokens.css` + `<style>` scoped per komponen Astro |
+| Font | Self-host subset WOFF2 ≤120 KB (tanpa Google Fonts CDN) |
+| Pencarian | Pagefind tetap; Lighthouse <85 mobile adalah pemicu revisit dengan entri decision log baru |
+| Komponen | Set launch (Header, Footer, SearchBox, ToolCard, CategoryCard, Badge & PriceLabel, LabelExplainer, SubmitBand) + kondisional (RankRow, CollectionCard, AdSlot); tanpa Pagination |
+
+Gerbang scaffolding dibuka lebih awal oleh pemilik pada sesi yang sama — fog "Scaffolding", "Design token → CSS delivery", dan "Search at 50 pages" selesai ketiganya. Sisa pekerjaan menuju build: tidak ada keputusan struktur yang tertahan; yang tersisa dari peta adalah keputusan milik pemilik di tiket 10, 11, 13, dan 14.
