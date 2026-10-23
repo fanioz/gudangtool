@@ -38,10 +38,12 @@ A Stage 0 site running from `~/code/blog/gudangtool` (git repo → GitHub → Ac
 - [What does the homepage show at 50 tools?](issues/10-homepage-filter-behaviour-at-50-tools.md): **Varian A — rangka penuh.** Ranking tampil satu kotak "belum cukup data" + ambang; koleksi disembunyikan; slot iklan dipertahankan (fog AdSense mulai menggigit). Konsekuensi: nav "Ranking" butuh halaman nyata → tiket 14 terbuka.
 - [Do `/ranking` and `/koleksi` ship at 50 tools?](issues/14-ranking-and-collection-pages-at-50-tools.md): **Terbit, `noindex, follow`, di luar sitemap** (pilihan a). Halaman menjelaskan ambang + "belum cukup data"; tautan nav tidak pernah mati; tautan "Koleksi" hanya muncul bila ada koleksi yang memenuhi ambang.
 - [How does a tool submission actually reach us?](issues/13-submit-flow-mechanics.md): **Google Form** (**D27**) — `/submit` menautkan keluar, fallback email, triase manual dari Sheets; D18 tetap utuh; jalur berbayar tidak ada di Stage 0; Google masuk daftar pihak ketiga privasi (tiket 08 diperbarui).
+- [Ads on/off](../09-decision-log.md): **D28** — satu flag build-time `ads.enabled`; off = slot, ads.txt, dan skrip tidak dirender sama sekali; on (setelah AdSense disetujui) = slot dengan tinggi dicadangkan + ads.txt + skrip. Fog AdSense selesai; peta tanpa fog.
 
 ## Not yet specified
 
-- **AdSense application timing.** D9 puts AdSense behind placement revenue. Whether `ads.txt` and ad slots ship empty on day one or not at all is open — it only bites if the homepage keeps a reserved ad slot (variant A of ticket 10; variants B and C drop it).
+<!-- kosong: fog terakhir (AdSense timing) selesai lewat D28 -->
+
 
 ## Out of scope
 

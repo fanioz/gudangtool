@@ -414,6 +414,30 @@ Catatan keputusan berurutan, alasan di baliknya, dan hal-hal yang sudah tidak be
 
 ---
 
+### D28. Iklan: sakelar on/off satu sumber
+
+**Keputusan:** tayangan iklan dikendalikan satu flag build-time di satu file konfigurasi situs (mis. `src/consts.ts`): `ads.enabled`. Default peluncuran **off**; di-flip **on** hanya setelah AdSense disetujui. Satu flag mengendalikan tiga hal sekaligus: slot iklan, `ads.txt`, dan skrip AdSense.
+
+| Keadaan | Slot iklan | `public/ads.txt` | Skrip AdSense |
+|---|---|---|---|
+| `off` (launch) | **Tidak dirender sama sekali** — tanpa markup, tanpa ruang dicadangkan | Tidak ada | Tidak dimuat |
+| `on` (disetujui) | Dirender dengan tinggi tetap dicadangkan (02 §14.5), label `Iklan` selalu terlihat, maksimal 2 unit per halaman | Terbit memuat publisher ID sungguhan | Dimuat |
+
+**Alasan:**
+
+- `off` = sembunyi total, bukan kotak kosong: kotak kosong berdashed terlihat seperti halaman rusak dan melanggar "rapi, bukan ramai" (02 §1).
+- Flag build-time, bukan runtime: situs tetap statis murni (AGENTS §8); mem-flip = ubah satu baris + rebuild + deploy.
+- `ads.txt` tanpa publisher ID sungguhan adalah ads.txt palsu — jadi dia ikut flag, tidak pernah terbit lebih awal.
+- Saat `on`, tinggi slot dicadangkan sejak awal sehingga muatan iklan tidak pernah menyebabkan layout shift (DoD AGENTS §6). Perubahan off→on adalah satu kejadian editorial yang disengaja, bukan pergeseran terus-menerus.
+
+**Konsekuensi:**
+
+- Komponen `AdSlot` masuk set komponen D26 sebagai komponen kondisional yang keberadaannya dibaca dari flag, bukan dari data.
+- Iklan tidak boleh di dalam kartu tool dan tidak boleh di atas H1 di mobile (AGENTS §8, 02 §14.5) — flag tidak mengecualikan aturan itu.
+- Fog "AdSense application timing" di map launch-stage-0 selesai; peta tidak menyisakan fog.
+
+---
+
 ## Hal yang sudah kedaluwarsa
 
 | Materi | Status | Tindakan |
