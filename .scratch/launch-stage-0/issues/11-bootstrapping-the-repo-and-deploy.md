@@ -1,7 +1,7 @@
 # Ticket: How does an empty VPS become a served site?
 
 Type: task
-Status: open
+Status: claimed
 Blocked by: 01, 09
 
 ## Question
