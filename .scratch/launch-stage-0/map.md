@@ -29,6 +29,7 @@ A Stage 0 site running from `~/code/blog/gudangtool` (git repo → GitHub → Ac
 - [What does the build actually refuse?](issues/06-validation-gate-enforcement.md): Eight rules mapped to mechanisms (D20). Zod gates 1–5; lint gates 6; post-build script gates 7; nav logic gates 8; noindex is template-computed, no manifest.
 - [What is the category and lane map at 50 tools?](issues/04-category-taxonomy-at-50-tools.md): All 8 categories ship; only Desain is indexable. No lanes at launch (deferred). Homepage "Baru masuk" strip + Pagefind search for cross-category discovery.
 - [Where does legal copy come from?](issues/08-legal-page-copy-source.md): Ditulis sendiri, tanpa pengacara di peluncuran; tinjauan pengacara jadi prasyarat sebelum AdSense. Privasi: Cloudflare WA + Pagefind + GitHub Issue Form, daftar bertanggal. Kontak: halo@gudangtool.web.id forward ke pemilik. Kebijakan afiliasi dikunci (hanya tool diuji, selalu berlabel, tidak pernah mengubah tier/ranking).
+- [What is the minimum a `terdaftar` entry carries?](issues/05-terdaftar-entry-data-floor.md): Dua ambang — `diuji` 3 data unik, `terdaftar` 2. Field wajib (`function`) dan "Belum diperiksa" tidak dihitung; yang dihitung platform + alternatif `diuji`. Halaman tanpa alternatif `diuji` tetap tayang `noindex, follow`. Keunikan per halaman, bukan lintas halaman.
 
 ## Not yet specified
 

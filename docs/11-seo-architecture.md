@@ -87,16 +87,33 @@ Jika rasio indeks batch pertama di bawah 60%, **jangan tambah halaman**. Perbaik
 
 ## 6. Data unik minimum per halaman
 
-Agar tidak dianggap halaman tipis, setiap halaman tool wajib punya minimal **tiga** dari daftar ini:
+*(Diperbarui oleh D23, 23 Oktober 2026 — ambang dipecah per tier.)*
+
+Agar tidak dianggap halaman tipis, setiap halaman tool wajib memenuhi ambang tier-nya:
+
+| Tier | Ambang |
+|---|---|
+| `diuji` | Minimal **tiga** data unik |
+| `terdaftar` | Minimal **dua** data unik |
+
+Daftar kandidat data unik:
 
 - Tabel batas gratis (akun, kuota, watermark, ekspor).
-- Harga dalam rupiah dan tanggal kurs.
+- Status harga (`price_status`).
 - Platform yang didukung.
 - Tanggal verifikasi yang nyata.
-- Dua alternatif dengan alasan.
+- Alternatif berstatus `diuji` dengan alasan.
 - Satu catatan pemakaian atau peringatan.
 
-Halaman Terdaftar yang tidak punya minimal dua data unik **tidak diindeks**.
+**Aturan hitung (D23):**
+
+1. Field wajib tidak dihitung — `function` sama wajibnya dengan judul, bukan data tambahan.
+2. Baris "Belum diperiksa" (`unknownList`) tidak dihitung — itu kejujuran, bukan data.
+3. Platform dihitung satu titik berapa pun jumlah platformnya.
+4. Alternatif dihitung satu titik berapa pun jumlahnya. Keunikan dinilai **per halaman**, bukan lintas halaman — pasangan alternatif yang sama boleh muncul di banyak halaman.
+5. Sebagian besar kandidat di atas secara struktural `null` untuk `terdaftar` (aturan tier). Praktisnya, ambang 2 untuk `terdaftar` berarti: platform + **minimal satu alternatif `diuji`**.
+
+Halaman `terdaftar` yang tidak punya alternatif `diuji` tetap dibangun dengan `noindex, follow` — bukan dihapus, bukan dikeluarkan dari batch. Ia naik kelas otomatis saat kategorinya memiliki tool `diuji` dan alternatif ditautkan, tanpa perubahan URL.
 
 ---
 

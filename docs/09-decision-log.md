@@ -283,6 +283,33 @@ Catatan keputusan berurutan, alasan di baliknya, dan hal-hal yang sudah tidak be
 - Ticket 09 (DNS & email) kini punya konsumen: record forward `halo@`.
 - Sebelum mengajukan AdSense: jadwalkan tinjauan pengacara atas keempat halaman.
 
+### D23. Ambang data unik dipecah per tier
+
+**Keputusan:** ambang indeks halaman tool dibedakan: `diuji` butuh **tiga** data unik, `terdaftar` butuh **dua**. Field wajib dan baris "Belum diperiksa" tidak dihitung. Keunikan dinilai per halaman, bukan lintas halaman. Halaman `terdaftar` tanpa alternatif `diuji` tetap tayang `noindex, follow`.
+
+| Hal | Keputusan |
+|---|---|
+| Ambang `diuji` | 3 data unik |
+| Ambang `terdaftar` | 2 data unik — praktis: platform + ≥1 alternatif `diuji` |
+| Tidak dihitung | `function` (field wajib), baris "Belum diperiksa" |
+| Dihitung | Platform (1 titik), alternatif `diuji` (1 titik) |
+| Pasangan alternatif sama antarhalaman | Diizinkan — keunikan per halaman |
+| Tidak lolos ambang | `noindex, follow`, tetap dibangun, tidak masuk sitemap; naik kelas otomatis saat ada alternatif `diuji` |
+
+**Alasan:**
+
+- Menyeragamkan ambang berarti mematikan tier `terdaftar` dari indeks selamanya: field yang dibutuhkan untuk mencapai ambang 3 (`limits`, `verified_at`, catatan pemakaian) semuanya wajib `null` untuk `terdaftar` oleh aturan tier. Halaman yang sengaja kosong klaimnya tidak boleh dihukum seperti halaman yang berbohong.
+- Menghitung `function` sebagai data unik membuat ambang selalu lolos — aturan jadi teater.
+- "Semua pasangan alternatif harus beda" tidak bisa dijaga di 50+ halaman dan tidak sesuai cara mesin pencari menilai (Google menilai per halaman).
+- Membuang atau menahan halaman `terdaftar` dari batch akan memutus tautan dari kategori dan homepage; `noindex, follow` menjaga tautan tetap hidup dan menaikkan kelas tanpa redirect.
+
+**Konsekuensi:**
+
+- Menggantikan kalimat "tiga data unik untuk `terdaftar`" pada konsekuensi D19.
+- `11-seo-architecture.md` §6 ditulis ulang (ambang per tier + aturan hitung).
+- `14-repo-spec.md` §5/§6 sudah menulis 2 — konsisten, tidak diubah.
+- Saat peluncuran, halaman `terdaftar` non-Desain hampir semuanya `noindex` (kategorinya belum punya tool `diuji`); penemuan mengandalkan strip "Baru masuk" dan Pagefind (D21).
+
 ---
 
 ## Hal yang sudah kedaluwarsa
