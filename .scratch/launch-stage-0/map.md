@@ -20,6 +20,7 @@ A Stage 0 site running from `~/code/blog/gudangtool` (git repo → GitHub → Ac
 - `sumoclaw` VPS is down. `sumojak` (2 vCPU / 1.9 GB, Caddy installed) is the target. `sumocabinet` is spare capacity.
 - Repo lives in **this folder**, `git init` on `main`, pushed to `github.com/fanioz/gudangtool` (private). `~/code/blog/gudangtool` is ignored from here on.
 - Launch runbook lives in `docs/deploy/runbook-launch.md`; the Caddy site block in `docs/deploy/Caddyfile.gudangtool`. The deploy pipeline has a preflight step that points to the runbook when the VPS prerequisite is missing.
+- **Owner decision 2026-10-23:** the scaffolding gate opened early. Ticket 15 (scaffold structure) graduates now, in parallel with ticket 11's operational remainder — the repo/deploy shape is settled, so nothing in the scaffold depends on 11 closing. "The map decides, does not build" still holds: the build itself remains the handoff.
 
 ## Decisions so far
 
@@ -36,9 +37,6 @@ A Stage 0 site running from `~/code/blog/gudangtool` (git repo → GitHub → Ac
 
 ## Not yet specified
 
-- **Scaffolding after the schema is locked.** Framework layout, component decomposition, layout and island strategy for search. Schema and build gates are now locked (tickets 06/12, D19/D20); this can graduate once 09/11 (repo & deploy) are resolved.
-- **Design token → CSS delivery.** `docs/02-visual-identity.md` locks colours, fonts, radii; how that becomes tokens, and whether fonts are self-hosted at the stated ≤120 KB budget, is open.
-- **Search at 50 pages.** Pagefind is specified, but at 50 pages a client-side island may be the wrong call. Revisit once catalogue size stabilises.
 - **AdSense application timing.** D9 puts AdSense behind placement revenue. Whether `ads.txt` and ad slots ship empty on day one or not at all is open — it only bites if the homepage keeps a reserved ad slot (variant A of ticket 10; variants B and C drop it).
 
 ## Out of scope
