@@ -34,11 +34,11 @@ Untuk setiap tool, dalam satu sesi, tanpa mengubah apa pun di akun pemilik:
 4. Isi lima field `limits`: `account`, `quota`, `watermark`, `export`, `storage`.
 5. Kalau satu field tidak bisa ditentukan tanpa akun atau tanpa uji, tulis **"Belum diperiksa"** — bukan tebakan, bukan "tidak ada".
 6. Tulis `observed_at` (tanggal) dan `observed_by` (`agent` atau nama orang).
-7. Simpan URL sumber tiap klaim di `internal_note`, satu per baris, format `field: URL`.
+7. Simpan URL sumber tiap klaim di `internal_note.sources` sebagai array `{field, url}`. `field` memakai path bertitik, mis. `limits.quota`.
 
 **Yang dilarang di bagian ini:** menulis `fit`, `not_fit`, atau `why`. Itu penilaian manusia, bukan hasil membaca halaman.
 
-**Kalau klaim vendor bertentangan dengan yang Anda lihat:** yang Anda lihat menang untuk `limits`. Klaim vendor tetap dicatat di `internal_note` beserta URL-nya sebagai jejak audit.
+**Kalau klaim vendor bertentangan dengan yang Anda lihat:** yang Anda lihat menang untuk `limits`. Klaim vendor tetap dicatat di `internal_note.sources` beserta URL-nya sebagai jejak audit.
 
 ---
 
@@ -77,11 +77,11 @@ Setiap tool berakhir di salah satu dari tiga keadaan. Tidak ada keadaan keempat.
 **Screenshots di luar repo.** Git menyimpan teks, bukan PNG; 3.000 tool × 2 tangkapan layar akan membengkakkan repo selamanya dan memperlambat setiap clone.
 
 - Lokasi: `~/gudangtool-evidence/{slug}/{YYYY-MM-DD}-{01}.png`, di luar repo.
-- Di setiap file JSON tool, `internal_note` mencatat path relatifnya: `evidence: {slug}/{YYYY-MM-DD}-{01}.png`.
+- Di setiap file JSON tool, path relatifnya dicatat di `internal_note.evidence` sebagai array string: `"{slug}/{YYYY-MM-DD}-{01}.png"`.
 - `internal_note` **tidak pernah dirender** — ia hanya jejak audit untuk peninjau PR.
 - Kalau pemilik ingin bukti ikut di repo, pindahkan folder ke `qa/evidence/` dan tambahkan ke `.gitignore` per folder; keputusan tetap di pemilik.
 
-**Yang wajib ada di `internal_note` untuk setiap entri `diuji`:** URL sumber tiap klaim, plus path bukti. Tanpa keduanya, PR ditolak.
+**Yang wajib ada di `internal_note` untuk setiap entri `diuji`:** `sources` (URL tiap klaim) dan `evidence` (path bukti). Tanpa keduanya, build gagal.
 
 ---
 
@@ -184,7 +184,7 @@ Banner di halaman harga menyatakan pemindahan ke Canva dan penutupan situs mandi
 - **`why`** — satu kalimat yang dibaca pengunjung.
 - **`verified_at`** — tanggal uji tugas nyata.
 - **`observed_at`** — tanggal pengamatan mekanis.
-- **`internal_note`** — sumber tiap klaim + path bukti. Tidak pernah dirender.
+- **`internal_note`** — objek `{sources, evidence, note}`. Sumber tiap klaim + path bukti. Tidak pernah dirender.
 
 ---
 

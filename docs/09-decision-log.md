@@ -185,6 +185,31 @@ Catatan keputusan berurutan, alasan di baliknya, dan hal-hal yang sudah tidak be
 - `05-seed-tools.md` §4 diganti protokol hibrida; lembar uji `07-qa-test-sheet` tetap dipakai sebagai alat pencatatan, bukan sebagai definisi protokol.
 - Keputusan yang masih terbuka #2 (rasio tier) tetap terbuka, tetapi di bawah D18 #2 yang berlaku adalah rasio katalog keseluruhan, bukan per kategori.
 
+### D19. Skema kanonis dan jalur konversi seed
+
+**Keputusan:** `docs/14-repo-spec.md` §4 adalah skema kanonis. `docs/06-tools.json` diarsipkan menjadi `docs/06-tools-seed.json` dan tidak lagi menjadi sumber data.
+
+| Hal | Keputusan |
+|---|---|
+| Jalur konversi | Skrip satu kali: 20 seed → file produksi; 30 sisanya ditulis tangan dari skema |
+| Lokasi file | Satu file per tool di `src/content/tools/` |
+| `alternatives` | Boleh `[]` bila belum ada tool `diuji` yang sebanding; setiap item yang ada wajib bertier `diuji` |
+| `internal_note` | **Objek** `{sources, evidence, note}`, bukan string |
+| Field baru | `observed_at`, `observed_by` (lihat D18 #5) |
+| Seed | Diarsipkan, tidak dihapus |
+
+**Alasan:**
+
+- Satu file per tool karena `AGENTS.md` §7 mengizinkan content agent mengoreksi satu file per PR. Satu file besar berarti setiap PR berkonflik.
+- `alternatives: []` menghindari tautan lintas kategori yang menyesatkan. Tool Video yang belum punya pembanding teruji lebih jujur tanpa seksi alternatif daripada menautkan ke Figma.
+- `internal_note` sebagai objek karena build harus bisa memastikan setiap entri `diuji` punya sumber untuk tiap klaim dan punya bukti. String bebas tidak bisa diperiksa mesin.
+
+**Konsekuensi:**
+
+- `07-qa-test-sheet.md` v2.0 disesuaikan: `internal_note.sources` dan `internal_note.evidence` wajib untuk `diuji`.
+- `tier: diuji` gagal build bila `observed_at`, `observed_by`, `internal_note.sources`, atau `internal_note.evidence` kosong.
+- Halaman `terdaftar` dengan `alternatives: []` yang tidak memenuhi tiga data unik tetap `noindex`.
+
 ---
 
 ## Hal yang sudah kedaluwarsa

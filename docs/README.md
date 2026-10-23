@@ -15,7 +15,7 @@ Seluruh keputusan, materi brand, copy, data tool, dan riset strategi dari sesi p
 | `03-homepage-copy.md` | Copy halaman depan v2.0 (model direktori) + metadata SEO |
 | `04-category-and-tool-copy.md` | Copy kategori & detail tool v2.0 — tiga keadaan tool |
 | `05-seed-tools.md` | 20 tool kandidat tier Diuji + kriteria Terdaftar |
-| `06-tools.json` | Data tool terstruktur (v2, dengan tier dan placement) |
+| `06-tools-seed.json` | **Arsip.** Data seed 20 kandidat (v2). Digantikan oleh `src/content/tools/*.json` — lihat D19 |
 | `07-qa-test-sheet.md` | Lembar uji untuk tier Diuji |
 | `07-qa-test-sheet.csv` | Grid pelacakan hasil uji |
 | `08-pivot-memo.md` | Keputusan pivot, model pendapatan, risiko SEO, peta jalan |
@@ -37,6 +37,6 @@ Seluruh keputusan, materi brand, copy, data tool, dan riset strategi dari sesi p
 2. **09-decision-log.md** — apa yang berubah dan apa yang sudah tidak berlaku.
 3. **02-visual-identity.md** — identitas visual yang sudah dikunci (logo A).
 4. **03-homepage-copy.md** dan **04-category-and-tool-copy.md** — copy yang berlaku.
-5. **05-seed-tools.md** dan **06-tools.json** — isi katalog awal.
+5. **`05-seed-tools.md`** — antrean kandidat awal. `06-tools-seed.json` hanya arsip.
 
-> **Status dokumen:** seluruh dokumen sudah diselaraskan dengan arah direktori per 22 Oktober 2026. `01` v2.0, `03` v2.0, `04` v2.0, `02`/`05`/`07` v1.1, dan `06` schema v2. Riwayat keputusan ada di `09-decision-log.md`.
+> **Status dokumen:** seluruh dokumen sudah diselaraskan dengan arah direktori per 22 Oktober 2026. `01` v2.0, `03` v2.0, `04` v2.0, `02`/`05` v1.1, `07` v2.0, `14` v1.1, dan `06` diarsipkan sebagai `06-tools-seed.json` (D19). Riwayat keputusan ada di `09-decision-log.md`.

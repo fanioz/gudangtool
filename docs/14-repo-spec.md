@@ -1,7 +1,8 @@
-# Gudangtool — Spesifikasi Repo v1.0
+# Gudangtool — Spesifikasi Repo v1.1
 
-**Tanggal:** 22 Oktober 2026
-**Dasar:** `12-tech-stack.md` v3.0 · `11-seo-architecture.md` · `04-category-and-tool-copy.md` v2.0
+**Tanggal:** 23 Oktober 2026
+**Menggantikan:** v1.0 (skema tool tanpa `observed_at`/`observed_by`, `internal_note` sebagai string, `alternatives` wajib ≥2)
+**Dasar:** `12-tech-stack.md` v3.0 · `11-seo-architecture.md` · `04-category-and-tool-copy.md` v2.0 · D18 · D19
 **Untuk:** AI agent pembangun dan reviewer manusia.
 
 ---
@@ -104,14 +105,16 @@ scripts/
 | `url` | string | ya | HTTPS |
 | `added_at` | date | ya | `YYYY-MM-DD` |
 | `verified_at` | date/null | kondisional | Wajib untuk `diuji`; null untuk `terdaftar` |
+| `observed_at` | date/null | kondisional | Wajib untuk `diuji`; null untuk `terdaftar`. Boleh lebih awal dari `verified_at` |
+| `observed_by` | string/null | kondisional | `"agent"` atau nama orang; wajib untuk `diuji`, null untuk `terdaftar` |
 | `price_status` | enum/null | kondisional | `gratis`, `freemium`, `butuh-akun`; null untuk `terdaftar` |
 | `requires_account` | boolean/null | kondisional | Wajib untuk `diuji`; null untuk `terdaftar` |
 | `limits` | object/null | kondisional | Wajib untuk `diuji`; null untuk `terdaftar` |
 | `why` | string/null | kondisional | Wajib untuk `diuji`; null untuk `terdaftar` |
 | `fit` | string/null | kondisional | Wajib untuk `diuji`; null untuk `terdaftar` |
 | `not_fit` | string/null | kondisional | Wajib untuk `diuji`; null untuk `terdaftar` |
-| `alternatives` | array slug | ya | Minimal 2 untuk `terdaftar`; setiap item harus `diuji` |
-| `internal_note` | string/null | tidak | Tidak pernah dirender |
+| `alternatives` | array slug | ya | Setiap item harus `diuji`. Boleh `[]` bila belum ada tool `diuji` yang sebanding |
+| `internal_note` | object/null | tidak | Tidak pernah dirender |
 
 ### Objek `limits`
 
@@ -123,13 +126,25 @@ scripts/
 | `export` | string | ya |
 | `storage` | string | tidak |
 
-Nilai yang tidak ada batasnya ditulis "Tidak ada", bukan dikosongkan.
+Nilai yang tidak ada batasnya ditulis "Tidak ada", bukan dikosongkan. Nilai yang belum bisa diperiksa tanpa akun ditulis "Belum diperiksa".
+
+### Objek `internal_note`
+
+Jejak audit, tidak pernah dirender.
+
+| Field | Tipe | Wajib | Aturan |
+|---|---|---|---|
+| `sources` | array `{field, url}` | ya untuk `diuji` | Satu entri per klaim yang punya sumber; `field` memakai path bertitik, mis. `limits.quota` |
+| `evidence` | array string | ya untuk `diuji` | Path relatif bukti tangkapan layar, mis. `excalidraw/2026-10-22-01.png` |
+| `note` | string | tidak | Catatan bebas, mis. "klaim vendor bertentangan dengan hasil uji" |
 
 ### Validasi lintas file
 
 - `slug` unik di seluruh katalog.
 - `category` dan `subcategory` ada.
-- Setiap `alternatives` ada, bukan dirinya sendiri, dan bertier `diuji`.
+- Setiap `alternatives` ada, bukan dirinya sendiri, dan bertier `diuji`. Array kosong diperbolehkan.
+- `tier: diuji` gagal build jika `observed_at`, `observed_by`, `verified_at`, `limits`, `price_status`, `requires_account`, `why`, `fit`, atau `not_fit` kosong.
+- `tier: diuji` gagal build jika `internal_note.sources` atau `internal_note.evidence` kosong.
 - `placement: true` wajib punya penanda di halaman.
 - Tidak ada kata "gratis" pada teks entri `terdaftar` (cek case-insensitive pada `function`, `why`, `fit`, `not_fit`).
 - Tanggal tidak di masa depan.

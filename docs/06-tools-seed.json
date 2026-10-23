@@ -1,5 +1,5 @@
 {
-  "schema": "gudangtool.tools.v2",
+  "schema": "gudangtool.tools.seed.v2 (arsip)",
   "generated_at": "2026-10-21",
   "note": "Semua entri berstatus tier=kandidat: belum tayang dan belum diverifikasi. Setelah lulus QA, tier berubah menjadi diuji. Entri tanpa tier tidak boleh tayang. placement=false berarti bukan slot berbayar.",
   "tools": [
@@ -16,7 +16,9 @@
       "limits": "Kuota harian per model; antrean saat ramai.",
       "why": "Paling murah untuk mencoba model besar tanpa langganan.",
       "url": "https://aistudio.google.com",
-      "platform": ["web"],
+      "platform": [
+        "web"
+      ],
       "verified": false,
       "checked_at": null
     },
@@ -33,7 +35,11 @@
       "limits": "Model terbaru punya kuota pesan harian; sisanya jatuh ke model lebih kecil.",
       "why": "Standar pembanding untuk hampir semua tugas teks.",
       "url": "https://chatgpt.com",
-      "platform": ["web", "desktop", "mobile"],
+      "platform": [
+        "web",
+        "desktop",
+        "mobile"
+      ],
       "verified": false,
       "checked_at": null
     },
@@ -50,7 +56,9 @@
       "limits": "Sebagian demo butuh antrean atau GPU berbayar.",
       "why": "Tempat mencoba model baru sebelum tool komersial menyalinnya.",
       "url": "https://huggingface.co",
-      "platform": ["web"],
+      "platform": [
+        "web"
+      ],
       "verified": false,
       "checked_at": null
     },
@@ -67,7 +75,9 @@
       "limits": "Kolaborasi lewat tautan; data tersimpan di browser.",
       "why": "Tanpa akun dan langsung bisa dipakai — jarang untuk tool sekelas ini.",
       "url": "https://excalidraw.com",
-      "platform": ["web"],
+      "platform": [
+        "web"
+      ],
       "verified": false,
       "checked_at": null
     },
@@ -84,7 +94,9 @@
       "limits": "Didukung iklan; fitur lanjutan butuh langganan.",
       "why": "Satu-satunya editor PSD gratis yang tidak perlu dipasang.",
       "url": "https://www.photopea.com",
-      "platform": ["web"],
+      "platform": [
+        "web"
+      ],
       "verified": false,
       "checked_at": null
     },
@@ -101,7 +113,9 @@
       "limits": "Lisensi bebas pakai; tidak semua ilustrasi punya semua gaya.",
       "why": "Ilustrasi yang tidak terasa seperti stok foto.",
       "url": "https://undraw.co",
-      "platform": ["web"],
+      "platform": [
+        "web"
+      ],
       "verified": false,
       "checked_at": null
     },
@@ -118,7 +132,9 @@
       "limits": "Perlu dipasang; antarmuka cukup teknis.",
       "why": "Transcoder yang dipakai profesional, gratis dan open source.",
       "url": "https://handbrake.fr",
-      "platform": ["desktop"],
+      "platform": [
+        "desktop"
+      ],
       "verified": false,
       "checked_at": null
     },
@@ -135,7 +151,9 @@
       "limits": "Perlu dipasang; belajar awalnya cukup curam.",
       "why": "Editor lengkap tanpa watermark dan tanpa akun.",
       "url": "https://shotcut.org",
-      "platform": ["desktop"],
+      "platform": [
+        "desktop"
+      ],
       "verified": false,
       "checked_at": null
     },
@@ -152,7 +170,11 @@
       "limits": "Sebagian fitur dan ekspor kena watermark atau batas; template berbayar ditandai.",
       "why": "Paling cepat untuk konten vertikal, asal batasnya disadari.",
       "url": "https://www.capcut.com",
-      "platform": ["web", "desktop", "mobile"],
+      "platform": [
+        "web",
+        "desktop",
+        "mobile"
+      ],
       "verified": false,
       "checked_at": null
     },
@@ -169,7 +191,9 @@
       "limits": "Perlu dipasang; tampilan terasa lama.",
       "why": "Standar rumahan sejak dua dekade, tanpa biaya.",
       "url": "https://www.audacityteam.org",
-      "platform": ["desktop"],
+      "platform": [
+        "desktop"
+      ],
       "verified": false,
       "checked_at": null
     },
@@ -186,7 +210,9 @@
       "limits": "Butuh akun Adobe; ada batas durasi dan kuota.",
       "why": "Hasil pembersihan suaranya sulit ditandingi tool gratis lain.",
       "url": "https://podcast.adobe.com",
-      "platform": ["web"],
+      "platform": [
+        "web"
+      ],
       "verified": false,
       "checked_at": null
     },
@@ -203,7 +229,10 @@
       "limits": "Gratis untuk pemakaian pribadi; sinkronisasi dan publish berbayar.",
       "why": "Data tetap milikmu — file biasa, bukan database tertutup.",
       "url": "https://obsidian.md",
-      "platform": ["desktop", "mobile"],
+      "platform": [
+        "desktop",
+        "mobile"
+      ],
       "verified": false,
       "checked_at": null
     },
@@ -220,7 +249,9 @@
       "limits": "Gratis untuk pemakaian pribadi; fitur AI berbayar; khusus macOS.",
       "why": "Menggantikan banyak utilitas kecil dengan satu pintu.",
       "url": "https://www.raycast.com",
-      "platform": ["desktop"],
+      "platform": [
+        "desktop"
+      ],
       "verified": false,
       "checked_at": null
     },
@@ -237,7 +268,9 @@
       "limits": "Perlu dipasang; ekstensi tertentu memperlambat startup.",
       "why": "Editor paling banyak dipakai, gratis, dan ringan.",
       "url": "https://code.visualstudio.com",
-      "platform": ["desktop"],
+      "platform": [
+        "desktop"
+      ],
       "verified": false,
       "checked_at": null
     },
@@ -254,7 +287,9 @@
       "limits": "Tanpa akun; menyimpan riwayat butuh akun.",
       "why": "Penjelasan per bagian regex — cara tercepat belajar, bukan sekadar mencoba.",
       "url": "https://regex101.com",
-      "platform": ["web"],
+      "platform": [
+        "web"
+      ],
       "verified": false,
       "checked_at": null
     },
@@ -271,7 +306,9 @@
       "limits": "Perlu koneksi saat pertama membuka; bisa offline setelahnya.",
       "why": "Menggantikan sepuluh tab dokumentasi.",
       "url": "https://devdocs.io",
-      "platform": ["web"],
+      "platform": [
+        "web"
+      ],
       "verified": false,
       "checked_at": null
     },
@@ -288,7 +325,11 @@
       "limits": "Banyak elemen berbayar ditandai mahkota; ekspor transparan butuh Pro.",
       "why": "Titik awal tercepat untuk orang non-desainer.",
       "url": "https://www.canva.com",
-      "platform": ["web", "desktop", "mobile"],
+      "platform": [
+        "web",
+        "desktop",
+        "mobile"
+      ],
       "verified": false,
       "checked_at": null
     },
@@ -305,7 +346,9 @@
       "limits": "Gratis dengan batas data; versi 360 berbayar.",
       "why": "Standar pengukuran yang dipahami hampir semua klien.",
       "url": "https://analytics.google.com",
-      "platform": ["web"],
+      "platform": [
+        "web"
+      ],
       "verified": false,
       "checked_at": null
     },
@@ -322,7 +365,10 @@
       "limits": "Butuh verifikasi alamat; satu profil per lokasi.",
       "why": "Gratis dan langsung mendatangkan pelanggan lokal.",
       "url": "https://business.google.com",
-      "platform": ["web", "mobile"],
+      "platform": [
+        "web",
+        "mobile"
+      ],
       "verified": false,
       "checked_at": null
     },
@@ -339,9 +385,13 @@
       "limits": "Butuh nomor terpisah; API untuk otomatisasi berbayar.",
       "why": "Pelanggan UMKM sudah ada di sana; tidak perlu aplikasi baru.",
       "url": "https://business.whatsapp.com",
-      "platform": ["mobile", "desktop"],
+      "platform": [
+        "mobile",
+        "desktop"
+      ],
       "verified": false,
       "checked_at": null
     }
-  ]
+  ],
+  "status_dokumen": "ARSIP — digantikan oleh src/content/tools/*.json. Jangan impor ulang dari file ini. Tier `kandidat` di sini hanya riwayat keputusan (D5), bukan isi katalog."
 }
