@@ -335,6 +335,31 @@ Catatan keputusan berurutan, alasan di baliknya, dan hal-hal yang sudah tidak be
 - 15 PR kenaikan tier Desain menyusul batch, satu per uji yang tuntas.
 - Semua jalur konten Stage 0 terbuka tanpa keputusan tersisa.
 
+### D25. Topologi DNS, VPS, dan email
+
+**Keputusan:** kedua domain pindah ke satu zona Cloudflare; redirect `gudangtools`→`gudangtool` hidup di edge (Bulk Redirects); situs disajikan `sumojak`; `halo@gudangtool.web.id` dikirim lewat Brevo dengan domain terverifikasi; VPS tetap IPv4 publik dengan Cloudflare proxy aktif.
+
+| Hal | Keputusan |
+|---|---|
+| Zona DNS | Satu zona Cloudflare berisi `gudangtool.web.id` + `gudangtools.web.id` |
+| 301 domain jamak | Cloudflare Bulk Redirects (di edge, selamat dari kegagalan VPS) |
+| VPS | `sumojak` (2 vCPU / 1,9 GB, Caddy terpasang); `sumocabinet` cadangan tanpa konfigurasi |
+| Email | `halo@gudangtool.web.id` via Brevo (TXT SPF + DKIM + verifikasi di zona yang sama); fallback forward polos tanpa verifikasi |
+| VPS exposure | A record nyata + orange cloud; SSH publik dengan kunci; Cloudflare Tunnel **tidak** dipakai di Stage 0 |
+
+**Alasan:**
+
+- Zona tunggal: satu tempat konfigurasi, Bulk Redirects dan record email tidak mungkin terpecah dua provider.
+- Redirect di edge, bukan Caddy: kasus paling butuh redirect (link lama) adalah kasus di mana VPS paling mungkin sedang mati.
+- Brevo bukan soal volume tapi identitas — balasan dari domain sendiri kredibilitasnya sama dengan halaman legal (D22).
+- Tunnel ditambahkan = komponen di luar `12-tech-stack.md`, perlu keputusan tersendiri dan tidak melayani kebutuhan Stage 0.
+
+**Konsekuensi:**
+
+- **Harus diverifikasi manual:** apakah `.web.id` mendukung delegasi NS ke pihak ketiga (panel PANDI; whois/RDAP tidak bisa memastikan). Kalau tidak: `gudangtool` tetap di registrar, redirect pindah ke Caddy — dicatat sebagai fakta baru, bukan penyimpangan.
+- Checklist pasca-keputusan: delegasi NS, buat zona + redirect + record Brevo, pasang kunci SSH GitHub Actions di `sumojak`.
+- Ticket 11 (bootstrap) terbuka dengan topologi lengkap.
+
 ---
 
 ## Hal yang sudah kedaluwarsa

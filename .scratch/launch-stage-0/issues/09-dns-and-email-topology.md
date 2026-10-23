@@ -1,7 +1,7 @@
 # Ticket: What is the DNS and email topology?
 
 Type: grilling
-Status: claimed
+Status: resolved
 Blocked by: 01
 
 ## Question
@@ -28,3 +28,58 @@ Open:
 5. Does the VPS need a public IPv4, or is it behind Cloudflare proxying only?
 
 This is a task-shaped ticket with a grilling front: the topology is a decision, then DNS records are manual work.
+
+---
+
+## Resolution — owner decisions
+
+**2026-10-23.** Lima keputusan.
+
+**Q1 — Satu zona Cloudflare untuk kedua domain (a).** `gudangtool.web.id` dan
+`gudangtools.web.id` sama-sama didelegasikan ke nameserver Cloudflare. Zona tunggal
+memuat: A `@` → VPS `sumojak`, CNAME `www` → `@`, TXT verifikasi/SPF/DKIM Brevo.
+**Fakta yang harus diverifikasi manual (task):** perubahan NS `.web.id` dilakukan
+dari panel registrar PANDI — tidak bisa diverifikasi dari luar (whois/RDAP tidak
+mengembalikan data). Kalau ternyata `.web.id` tidak mendukung delegation ke NS
+pihak ketiga, fallback: `gudangtool` tetap di registrar dan redirect `gudangtools`
+dikonfigurasi lewat Caddy (Q2 berubah ke (b)) — dicatat sebagai fakta, bukan
+kegagalan.
+
+**Q2 — 301 `gudangtools` → `gudangtool` di Cloudflare Bulk Redirects (a).** Hidup
+di edge, selamat dari kegagalan VPS, satu tempat konfigurasi. Alasan: kasus paling
+butuh redirect (link lama ke domain jamak) adalah kasus di mana situs utama sedang
+paling mungkin bermasalah — redirect di VPS ikut mati bareng.
+
+**Q3 — VPS `sumojak` (a).** 2 vCPU / 1,9 GB, Caddy terpasang. `sumocabinet` tetap
+cadangan: IP diketahui, tidak dikonfigurasi apa pun — agar rollback bukan proyek.
+
+**Q4 — `halo@gudangtool.web.id` lewat Brevo dengan domain terverifikasi (a).**
+Rekam di zona Cloudflare hasil Q1: record verifikasi Brevo, TXT SPF, DKIM. Alasan
+bukan volume tapi identitas: balasan dari domain sendiri bagian dari kredibilitas
+D22. Kuota gratis Brevo (300 email/hari) jauh di atas kebutuhan. Fallback kalau
+konfigurasi merepotkan: forward polos tanpa verifikasi domain (b) — layak, bukan
+kegagalan.
+
+**Q5 — IPv4 publik + Cloudflare proxy aktif (a).** A record nyata ke VPS tapi
+orange cloud: IP asli tersembunyi, cache + DDoS aktif. SSH tetap terbuka (kunci
+saja) karena deploy rsync dari GitHub Actions butuh akses langsung. Cloudflare
+Tunnel ditolak untuk Stage 0 — menambah komponen di luar rencana `12-tech-stack.md`.
+
+### Topologi final
+
+| Domain | NS | Peran |
+|---|---|---|
+| `gudangtool.web.id` | Cloudflare | Situs utama; A → `sumojak`, orange cloud |
+| `gudangtools.web.id` | Cloudflare (dari Sumopod) | 301 ke tunggal di Cloudflare Bulk Redirects; tidak pernah diindeks |
+
+Email `halo@` → Brevo (domain terverifikasi di zona yang sama) → forward ke pemilik.
+
+### Checklist manual setelah keputusan ini
+
+1. Panel PANDI: delegasi NS kedua `.web.id` ke Cloudflare — **verifikasi dulu apakah didukung**.
+2. Cloudflare: buat zona, A `@`, CNAME `www`, Bulk Redirects, record Brevo.
+3. `sumojak`: pasang kunci SSH GitHub Actions untuk rsync.
+
+### Unblocks
+
+- Ticket 11 (bootstrap repo & deploy) — seluruh topologi sudah diketahui.
