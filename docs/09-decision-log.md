@@ -236,6 +236,29 @@ Catatan keputusan berurutan, alasan di baliknya, dan hal-hal yang sudah tidak be
 - Script pasca-build untuk penanda placement adalah bagian dari `check:links` atau script terpisah di `scripts/`.
 - `noindex` tidak perlu koordinasi lintas komponen: template menghitung sendiri.
 
+### D21. Taksonomi kategori dan lorong saat peluncuran
+
+**Keputusan:** delapan kategori tetap tayang sebagai halaman, tetapi **hanya Desain yang diindeks**. Tujuh kategori lain `noindex` sampai mencapai ambang 12 tool. **Tidak ada lorong (subcategory) yang tayang saat peluncuran** meski field `subcategory` ada di skema. Homepage memakai strip "Baru masuk" lintas kategori plus Pagefind untuk penemuan di luar Desain.
+
+| Hal | Keputusan |
+|---|---|
+| Kategori tayang | Semua 8; hanya Desain (≥12 tool) terindeks, 7 lainnya `noindex` |
+| Lorong | Ditunda; tayang saat satu kategori punya ≥8 tool dengan kebutuhan serupa |
+| URL lorong (ketika tayang) | `/kategori/{slug}/{lorong}` |
+| Penemuan lintas kategori | Strip "Baru masuk" di homepage + Pagefind (termasuk halaman `noindex` untuk pencarian di-situs) |
+
+**Alasan:**
+
+- 50 tool dibagi 8 kategori = rata-rata 6 per kategori; hanya Desain (15) yang lolos ambang 12. Tujuh halaman `noindex` yang jujur lebih baik daripada tujuh kategori yang disembunyikan — navigasi tetap utuh dan pengunjung tetap bisa menemukan tool-nya.
+- Lorong di bawah ambang 8 akan menghasilkan halaman tipis — persis yang dihindari `11-seo-architecture.md`. Field dan pola URL didokumentasikan agar keputusan ini bisa dibalik tanpa migrasi.
+- Strip "Baru masuk" adalah satu-satunya permukaan terindeks yang menjangkau luar Desain; Pagefind menutup sisanya tanpa mengandalkan indeks mesin pencari.
+
+**Konsekuensi:**
+
+- Navigasi menampilkan 8 kategori; hanya Desain yang lolos ke sitemap.
+- `11-seo-architecture.md` §5 (lorong ≥8) tetap berlaku sebagai syarat tayang ketika keputusan ini dibuka kembali.
+- Ticket 10 (homepage) memakai strip "Baru masuk" + Pagefind, bukan daftar kategori terindeks.
+
 ---
 
 ## Hal yang sudah kedaluwarsa
