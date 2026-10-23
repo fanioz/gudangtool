@@ -41,6 +41,25 @@ jobs:
           chmod 700 ~/.ssh
           chmod 600 ~/.ssh/deploy_key ~/.ssh/known_hosts
 
+      - name: Cek prasyarat di VPS
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          TARGET_PATH: ${{ secrets.TARGET_PATH }}
+        run: |
+          OUT=$(ssh -p "$SSH_PORT" -i ~/.ssh/deploy_key \
+            -o UserKnownHostsFile=~/.ssh/known_hosts -o StrictHostKeyChecking=yes \
+            "$SSH_USER@$SSH_HOST" "test -d '$TARGET_PATH/releases' && echo PRASYARAT_OK || echo PRASYARAT_HILANG") || {
+              echo "::error::Tidak bisa menghubungi server. Cek SSH_HOST, SSH_PORT, dan SSH_PRIVATE_KEY."
+              exit 1
+            }
+          if [ "$OUT" != "PRASYARAT_OK" ]; then
+            echo "::error::Direktori $TARGET_PATH/releases belum ada di server."
+            echo "Jalankan langkah A di docs/deploy/runbook-launch.md, lalu ulangi workflow ini."
+            exit 1
+          fi
+
       - name: Rsync release baru
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}
