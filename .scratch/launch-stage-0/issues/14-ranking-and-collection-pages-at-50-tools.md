@@ -1,7 +1,7 @@
 # Ticket: Do `/ranking` and `/koleksi` ship at 50 tools?
 
 Type: grilling
-Status: open
+Status: resolved
 Blocked by: 10
 
 ## Question
@@ -29,3 +29,12 @@ Two sub-questions that the homepage choice depends on:
 **Coupling to ticket 10**: the homepage variant decides whether the nav and footer link to these pages at all. Variant B (rack without a queue) drops both links; variants A and C keep "Ranking". A homepage link to a page that does not exist is a dead internal link, and `13-launch-plan.md` line 114 forbids dead links in the first 50 pages. So this ticket is blocked by ticket 10, and its answer feeds the nav-gating logic in D20 gate 8.
 
 **Not decided here**: the exact rule set for each collection, and whether a collection may include `terdaftar` tools. Copy v2 §7 restricts claim-based collections to Diuji tools only; ticket 05 already governs that elsewhere.
+
+## Answer
+
+**2026-10-23 — pemilik memilih (a): keduanya terbit di Stage 0 sebagai halaman `noindex, follow`, di luar sitemap.**
+
+- `/ranking` berisi penjelasan ambang + kalimat "belum cukup data" (copy v2 §6); `/koleksi` sama, dengan aturan 02 §14.6 (koleksi yang belum memenuhi ≥10 tool tidak ditampilkan sebagai kartu — halaman menjelaskan ambangnya).
+- Aturan AGENTS #6 (indeks dihitung kode) otomatis menangani status indeks; tidak ada manifest manual.
+- Konsekuensi nav: tautan "Ranking" di varian A selalu punya tujuan; tautan "Koleksi" hanya muncul bila minimal satu koleksi memenuhi ambang (keputusan 02 §14.6 tetap berlaku).
+- RankRow & CollectionCard masuk komponen kondisional D26; keduanya dirender dalam keadaan "belum cukup data" di halaman masing-masing.
