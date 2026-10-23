@@ -1,7 +1,7 @@
 # Ticket: What does the build actually refuse?
 
 Type: grilling
-Status: open
+Status: resolved
 Blocked by: 12
 
 ## Question
@@ -30,3 +30,19 @@ Also open:
 - Does the lint for "gratis" run on `function` only, or also on `name`, `why`, `fit`, `not_fit`, and rendered meta description?
 
 This ticket defines what "the build fails" means in practice, which is the whole integrity story of a file-based site.
+
+---
+
+## Resolution — owner decisions
+
+**2026-10-23.** All three recommendations accepted. Enforcement matrix written into `docs/14-repo-spec.md` §5 and recorded as **D20**.
+
+**Q1 — "Gratis" lint scope: all claim fields + meta description (a).** The lint scans `function`, `why`, `fit`, `not_fit` and the auto-generated meta description built from `function`. `name` is excluded (it's the official tool name; edge cases are unlikely and catching them isn't worth the false-positive risk).
+
+**Q2 — Placement marker: post-build HTML script (b).** After `astro build`, a script reads the HTML for each `placement: true` tool and fails if the string "Placement" is absent. Zod sees data, not rendered output; this catches template bugs invisibly to schema validation.
+
+**Q3 — `noindex` thresholds: template-computed (a), with (c) deferred.** Each page template counts its own data at build time and emits `<meta name="robots" content="noindex, follow">` when the threshold isn't met. No manifest. The sitemap script (when built) recomputes the same thresholds independently; a disagreement is a bug, not a consistency to paper over.
+
+### Unblocks
+
+Ticket 05 (terdaftar data floor) is now the only remaining grilling ticket in the frontier.

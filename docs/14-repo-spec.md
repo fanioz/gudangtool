@@ -192,6 +192,33 @@ Hanya tool `diuji` yang boleh masuk. Minimal 100 pembukaan per tool.
 
 ---
 
+### Matriks penegakan aturan build
+
+Setiap aturan di bawah ini menentukan **siapa** yang menegakannya: Zod (gagal saat schema di-parse), script validasi (`validate:content`), atau review PR (manusia). Build gagal hanya untuk aturan Zod dan script; aturan review ditandai sebagai blocker di PR template.
+
+| # | Aturan | Mekanisme | Cakupan |
+|---|---|---|---|
+| 1 | `diuji` kehilangan salah satu field klaim (`observed_at`, `observed_by`, `verified_at`, `limits`, `price_status`, `requires_account`, `why`, `fit`, `not_fit`, `internal_note.sources`, `internal_note.evidence`) | Zod `superRefine` | Satu objek tool |
+| 2 | `terdaftar` memuat salah satu field klaim yang tidak null | Zod `superRefine` | Satu objek tool |
+| 3 | `slug` duplikat | Astro content collection (key unik) | Seluruh koleksi |
+| 4 | `category` tidak ada di `categories/` | Zod `superRefine` + referensi koleksi | Lintas file |
+| 5 | `alternatives` menunjuk tool yang tidak ada atau bertier `terdaftar` | Zod `superRefine` | Lintas file; `[]` legal |
+| 6 | Teks `terdaftar` mengandung "gratis" (case-insensitive) | Zod `superRefine` atau script lint | `function`, `why`, `fit`, `not_fit`, plus meta description yang di-generate dari `function` |
+| 7 | `placement: true` tanpa penanda "Placement" di halaman | Script pasca-build membaca HTML hasil render | HTML per tool |
+| 8 | Kategori dengan <3 tool tampil di navigasi | Logika pembangunan navigasi (dihitung saat render) | Navigasi |
+
+**Aturan 1–5** adalah Zod: satu file tool yang melanggar apapun di sini membuat `astro check` gagal sebelum halaman dirender.
+
+**Aturan 6** dijalankan sebagai `validate:content`: selain field klaim, ia memindai string meta description yang akan di-generate dari `function` untuk halaman `terdaftar`. Kalau `function` mengandung "gratis", meta description-nya juga — jadi keduanya harus lolos.
+
+**Aturan 7** adalah satu-satunya aturan yang butuh pandangan manusia untuk *verifikasi*, tetapi script memeriksanya secara otomatis: setelah `astro build`, baca HTML setiap tool dengan `placement: true` dan cari string "Placement". Kalau tidak ada, script gagal. Ini menangkap bug template yang tidak bisa dilihat Zod.
+
+**Aturan 8** tidak gagal build — kategori kecil tetap dirender, hanya tidak muncul di navigasi. Ini logika `BaseLayout.astro` yang menghitung jumlah tool per kategori dan memfilter navigasi berdasarkan ambang 3.
+
+**Threshold `noindex`** (kategori <12 tool, `terdaftar` <2 data unik, ranking <20 entri) dihitung oleh template masing-masing halaman saat build. Tidak ada manifest terpisah. Sitemap script menghitung ulang threshold yang sama secara independen; kalau hasilnya berbeda, itu bug yang harus ditangkap, bukan inkonsistensi yang harus disamakan.
+
+---
+
 ## 6. Matriks halaman
 
 | Halaman | URL | Sumber | Diindeks jika | Sitemap |

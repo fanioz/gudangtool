@@ -210,6 +210,32 @@ Catatan keputusan berurutan, alasan di baliknya, dan hal-hal yang sudah tidak be
 - `tier: diuji` gagal build bila `observed_at`, `observed_by`, `internal_note.sources`, atau `internal_note.evidence` kosong.
 - Halaman `terdaftar` dengan `alternatives: []` yang tidak memenuhi tiga data unik tetap `noindex`.
 
+### D20. Matriks penegakan aturan build
+
+**Keputusan:** delapan aturan build dari `12-tech-stack.md` §5 dipetakan ke mekanisme penegakan, dicatat di `14-repo-spec.md` §5 sebagai matriks penegakan.
+
+| Mekanisme | Aturan |
+|---|---|
+| Zod `superRefine` | 1 (field klaim `diuji`), 2 (field klaim `terdaftar` null), 4 (kategori ada), 5 (`alternatives` sah) |
+| Content collection | 3 (`slug` unik — key unik per file) |
+| Script `validate:content` | 6 (lint "gratis" pada `function`, `why`, `fit`, `not_fit`, meta description) |
+| Script pasca-build | 7 (penanda "Placement" ada di HTML) |
+| Logika navigasi | 8 (kategori <3 tool disembunyikan dari navigasi) |
+| Template per halaman | Threshold `noindex` dihitung saat render; tidak ada manifest terpisah |
+
+**Alasan:**
+
+- Aturan 1–5 adalah validasi data murni: satu file yang melanggar membuat `astro check` gagal sebelum halaman dirender.
+- Aturan 6 butuh lint teks terpisah karena Zod tidak bisa memeriksa substring case-insensitive pada lintas field.
+- Aturan 7 adalah satu-satunya yang butuh pandangan manusia, tetapi script memeriksanya otomatis di HTML hasil render — menangkap bug template yang tidak terlihat di data.
+- Threshold `noindex` dihitung oleh template karena menambah manifest berarti menambah sumber kebenaran kedua. Sitemap script menghitung ulang secara independen; perbedaan adalah bug.
+
+**Konsekuensi:**
+
+- `astro check` (Zod) adalah gerbang pertama; `validate:content` adalah gerbang kedua.
+- Script pasca-build untuk penanda placement adalah bagian dari `check:links` atau script terpisah di `scripts/`.
+- `noindex` tidak perlu koordinasi lintas komponen: template menghitung sendiri.
+
 ---
 
 ## Hal yang sudah kedaluwarsa
