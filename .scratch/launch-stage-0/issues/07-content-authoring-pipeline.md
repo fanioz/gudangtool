@@ -1,7 +1,7 @@
 # Ticket: How do 50 tool files get written?
 
 Type: grilling
-Status: open
+Status: claimed
 Blocked by: 03, 12
 
 ## Question
