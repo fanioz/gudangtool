@@ -36,6 +36,7 @@ A Stage 0 site running from `~/code/blog/gudangtool` (git repo → GitHub → Ac
 - [What is the DNS and email topology?](issues/09-dns-and-email-topology.md): Satu zona Cloudflare untuk kedua domain; 301 `gudangtools`→`gudangtool` di Bulk Redirects (edge); VPS `sumojak` (A record, orange cloud); `halo@` lewat Brevo domain terverifikasi; SSH tetap publik + kunci. Verifikasi manual: dukungan delegasi NS `.web.id` di panel PANDI.
 - [How is the Astro scaffold structured?](issues/15-astro-scaffold-structure.md): **D26** — token CSS (`tokens.css`) + scoped style per komponen; font self-host subset WOFF2 ≤120 KB; Pagefind tetap (Lighthouse <85 = pemicu revisit); set komponen launch + kondisional, tanpa Pagination. Gerbang scaffolding dibuka awal oleh pemilik; fog scaffolding selesai.
 - [What does the homepage show at 50 tools?](issues/10-homepage-filter-behaviour-at-50-tools.md): **Varian A — rangka penuh.** Ranking tampil satu kotak "belum cukup data" + ambang; koleksi disembunyikan; slot iklan dipertahankan (fog AdSense mulai menggigit). Konsekuensi: nav "Ranking" butuh halaman nyata → tiket 14 terbuka.
+- [Do `/ranking` and `/koleksi` ship at 50 tools?](issues/14-ranking-and-collection-pages-at-50-tools.md): **Terbit, `noindex, follow`, di luar sitemap** (pilihan a). Halaman menjelaskan ambang + "belum cukup data"; tautan nav tidak pernah mati; tautan "Koleksi" hanya muncul bila ada koleksi yang memenuhi ambang.
 
 ## Not yet specified
 
