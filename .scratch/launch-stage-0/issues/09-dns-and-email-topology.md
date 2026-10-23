@@ -1,7 +1,7 @@
 # Ticket: What is the DNS and email topology?
 
 Type: grilling
-Status: open
+Status: claimed
 Blocked by: 01
 
 ## Question
