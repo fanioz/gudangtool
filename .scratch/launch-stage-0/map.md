@@ -30,10 +30,11 @@ A Stage 0 site running from `~/code/blog/gudangtool` (git repo → GitHub → Ac
 - [What is the category and lane map at 50 tools?](issues/04-category-taxonomy-at-50-tools.md): All 8 categories ship; only Desain is indexable. No lanes at launch (deferred). Homepage "Baru masuk" strip + Pagefind search for cross-category discovery.
 - [Where does legal copy come from?](issues/08-legal-page-copy-source.md): Ditulis sendiri, tanpa pengacara di peluncuran; tinjauan pengacara jadi prasyarat sebelum AdSense. Privasi: Cloudflare WA + Pagefind + GitHub Issue Form, daftar bertanggal. Kontak: halo@gudangtool.web.id forward ke pemilik. Kebijakan afiliasi dikunci (hanya tool diuji, selalu berlabel, tidak pernah mengubah tier/ranking).
 - [What is the minimum a `terdaftar` entry carries?](issues/05-terdaftar-entry-data-floor.md): Dua ambang — `diuji` 3 data unik, `terdaftar` 2. Field wajib (`function`) dan "Belum diperiksa" tidak dihitung; yang dihitung platform + alternatif `diuji`. Halaman tanpa alternatif `diuji` tetap tayang `noindex, follow`. Keunikan per halaman, bukan lintas halaman.
+- [How do 50 tool files get written?](issues/07-content-authoring-pipeline.md): Impor awal satu PR batch (konversi seed + 30 tulis tangan); koreksi menyusul satu file per PR. Tulis dulu sebagai `terdaftar`, naik kelas belakangan — satu PR kecil per uji tuntas. Pemilik menulis `why`/`fit`/`not_fit` sendiri (boleh kasar), agent hanya memformat.
 
 ## Not yet specified
 
-- **Scaffolding after the schema is locked.** Framework layout, component decomposition, layout and island strategy for search. Depends on the build-gate ticket; cannot be sharpened until the schema stops moving.
+- **Scaffolding after the schema is locked.** Framework layout, component decomposition, layout and island strategy for search. Schema and build gates are now locked (tickets 06/12, D19/D20); this can graduate once 09/11 (repo & deploy) are resolved.
 - **Design token → CSS delivery.** `docs/02-visual-identity.md` locks colours, fonts, radii; how that becomes tokens, and whether fonts are self-hosted at the stated ≤120 KB budget, is open.
 - **Search at 50 pages.** Pagefind is specified, but at 50 pages a client-side island may be the wrong call. Revisit once catalogue size stabilises.
 - **Submit flow mechanics.** GitHub Issue Form vs Tally, and where the `submission` label is triaged. The decision is recorded in the launch plan as a recommendation, not a spec.

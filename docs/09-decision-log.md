@@ -310,6 +310,31 @@ Catatan keputusan berurutan, alasan di baliknya, dan hal-hal yang sudah tidak be
 - `14-repo-spec.md` §5/§6 sudah menulis 2 — konsisten, tidak diubah.
 - Saat peluncuran, halaman `terdaftar` non-Desain hampir semuanya `noindex` (kategorinya belum punya tool `diuji`); penemuan mengandalkan strip "Baru masuk" dan Pagefind (D21).
 
+### D24. Pipeline penulisan 50 file tool
+
+**Keputusan:** impor awal batch masuk sebagai **satu PR**; entri merge dulu sebagai `terdaftar` dan naik kelas lewat PR kecil per uji tuntas; `why`/`fit`/`not_fit` **ditulis pemilik sendiri** (boleh kasar), agent hanya memformat.
+
+| Hal | Keputusan |
+|---|---|
+| Impor awal | Satu PR berisi seluruh batch 50 file — konversi satu kali `06-tools-seed.json` (20) + 30 tulis tangan |
+| Review batch | Menjalankan `check` + `validate:content` + `build`; manusia memeriksa sampel, bukan 50 file satu per satu |
+| Setelah batch | `AGENTS.md` §7 berlaku penuh: koreksi satu file per PR |
+| Urutan verifikasi | Tulis mekanis dulu (merge sebagai `terdaftar`), uji tugas nyata kapan sempat, naik tier = satu PR kecil per tool |
+| `why`/`fit`/`not_fit` | Ditulis pemilik; agent dilarang mendrafit atau menejak dari bacaan halaman |
+
+**Alasan:**
+
+- Jalur "impor massal lewat skrip" di `AGENTS.md` §7 memang dibuat untuk fase ini; memakainya sekali lalu kembali ke disiplin satu-file-per-PR adalah pemakaian yang benar.
+- Menahan PR terbuka selama 15 uji tugas nyata adalah cabang yang hidup berhari-hari — persis yang aturan PR dirancang untuk mencegah. `terdaftar` sudah punya tampilan jujur (D23), jadi tayang dulu tidak merugikan.
+- Kenaikan tier per tool meninggalkan jejak di git yang bisa diaudit — tanggal, siapa, apa yang berubah.
+- `not_fit` adalah bagian yang membedakan situs ini dari halaman promosi; kalimatnya harus milik orang yang memakai tool. Agent yang menghaluskan kalimat "nyebelin" menjadi "perlu pertimbangan" akan mengikis justru hal yang dijual D6.
+
+**Konsekuensi:**
+
+- Konverter seed hanya dipakai sekali; template CSV/JSON impor (launch-plan P1 #11) tidak diperlukan.
+- 15 PR kenaikan tier Desain menyusul batch, satu per uji yang tuntas.
+- Semua jalur konten Stage 0 terbuka tanpa keputusan tersisa.
+
 ---
 
 ## Hal yang sudah kedaluwarsa
