@@ -28,6 +28,7 @@ A Stage 0 site running from `~/code/blog/gudangtool` (git repo → GitHub → Ac
 - [Which schema is canonical?](issues/12-schema-drift-between-repo-spec-and-seed-data.md): `14-repo-spec.md` v1.1 is canonical (D19). One file per tool; `alternatives: []` allowed; `internal_note` is a structured object; seed archived as `06-tools-seed.json`.
 - [What does the build actually refuse?](issues/06-validation-gate-enforcement.md): Eight rules mapped to mechanisms (D20). Zod gates 1–5; lint gates 6; post-build script gates 7; nav logic gates 8; noindex is template-computed, no manifest.
 - [What is the category and lane map at 50 tools?](issues/04-category-taxonomy-at-50-tools.md): All 8 categories ship; only Desain is indexable. No lanes at launch (deferred). Homepage "Baru masuk" strip + Pagefind search for cross-category discovery.
+- [Where does legal copy come from?](issues/08-legal-page-copy-source.md): Ditulis sendiri, tanpa pengacara di peluncuran; tinjauan pengacara jadi prasyarat sebelum AdSense. Privasi: Cloudflare WA + Pagefind + GitHub Issue Form, daftar bertanggal. Kontak: halo@gudangtool.web.id forward ke pemilik. Kebijakan afiliasi dikunci (hanya tool diuji, selalu berlabel, tidak pernah mengubah tier/ranking).
 
 ## Not yet specified
 
@@ -35,7 +36,6 @@ A Stage 0 site running from `~/code/blog/gudangtool` (git repo → GitHub → Ac
 - **Design token → CSS delivery.** `docs/02-visual-identity.md` locks colours, fonts, radii; how that becomes tokens, and whether fonts are self-hosted at the stated ≤120 KB budget, is open.
 - **Search at 50 pages.** Pagefind is specified, but at 50 pages a client-side island may be the wrong call. Revisit once catalogue size stabilises.
 - **Submit flow mechanics.** GitHub Issue Form vs Tally, and where the `submission` label is triaged. The decision is recorded in the launch plan as a recommendation, not a spec.
-- **Legal page content.** Privacy, terms, contact, affiliate/placement disclosure. All four are AdSense and UU PDP requirements; wording is unwritten.
 - **AdSense application timing.** D9 puts AdSense behind placement revenue. Whether `ads.txt` and ad slots ship empty on day one or not at all is open.
 - **Collection/ranking eligibility at 50 tools.** Native thresholds (≥10 tool collection, ≥20 ranked tool, ≥100 opens) may make both unshippable at this size.
 

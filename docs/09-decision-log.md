@@ -259,6 +259,30 @@ Catatan keputusan berurutan, alasan di baliknya, dan hal-hal yang sudah tidak be
 - `11-seo-architecture.md` §5 (lorong ≥8) tetap berlaku sebagai syarat tayang ketika keputusan ini dibuka kembali.
 - Ticket 10 (homepage) memakai strip "Baru masuk" + Pagefind, bukan daftar kategori terindeks.
 
+### D22. Copy legal peluncuran dan kebijakan afiliasi
+
+**Keputusan:** empat halaman legal (`/privasi`, `/ketentuan`, `/kontak`, pengungkapan afiliasi & placement) **ditulis sendiri** dalam bahasa Indonesia jelas, tanpa pengacara, untuk peluncuran. Kebijakan afiliasi **ditulis sekarang**, bukan ditunda.
+
+| Hal | Keputusan |
+|---|---|
+| Penulisan | In-house, bahasa awam; tinjauan pengacara menjadi prasyarat **sebelum mengajukan AdSense**, bukan sebelum peluncuran |
+| `/privasi` | Menyebut Cloudflare Web Analytics (cookieless, IP diproses Cloudflare), Pagefind (client-side, tidak ada data terkirim), GitHub Issue Form (data masuk GitHub/AS); daftar pemroses **bertanggal** |
+| Perubahan pemroses | Termasuk pindah ke Google Analytics: wajib satu PR berisi entri decision log + pembaruan daftar privasi + evaluasi consent banner |
+| `/kontak` | `halo@gudangtool.web.id` diforward ke email pemilik; SLA balas tertulis (disarankan 3 hari kerja) |
+| Afiliasi | Hanya pada tool `diuji`; selalu berlabel terlihat; tidak pernah mengubah `tier`, `verified_at`, `limits`, `why`, `fit`, `not_fit`, atau ranking |
+
+**Alasan:**
+
+- Untuk situs 50 halaman tanpa akun pengguna dan tanpa transaksi, UU PDP mensyariatkan *pemberitahuan* yang bisa dipahami, bukan dokumen berbahasa hukum. Pengacara tanpa materi nyata hanya menghasilkan templat.
+- Halaman privasi sebagai daftar bertanggal membuat penambahan pemroses (termasuk GA) menjadi perubahan yang terlihat dan direview, bukan drift diam-diam.
+- Aturan afiliasi ditulis sekarang karena hanya lima baris dan sudah jelas; menundanya berarti ada waktu antara "aturan belum ada" dan "tautan mulai dipasang" — justru titik rawan tanpa aturan.
+
+**Konsekuensi:**
+
+- P0 #6 (legal pages) bukan lagi blocker peluncuran setelah keempat halaman ditulis.
+- Ticket 09 (DNS & email) kini punya konsumen: record forward `halo@`.
+- Sebelum mengajukan AdSense: jadwalkan tinjauan pengacara atas keempat halaman.
+
 ---
 
 ## Hal yang sudah kedaluwarsa
