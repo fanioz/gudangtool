@@ -1,7 +1,7 @@
 # Ticket: What does the homepage show at 50 tools?
 
 Type: prototype
-Status: claimed
+Status: resolved
 Blocked by: 01, 02, 04
 
 ## Question
@@ -57,3 +57,12 @@ Pemilik belum memilih varian. Yang bisa disiapkan tanpa keputusan: konsekuensi t
 **Rekomendasi: A.** Alasannya: A satu-satunya varian yang tidak perlu mengubah keputusan yang sudah dikunci (copy v2 §6 sudah menyediakan kalimat "belum cukup data"; 02 §14.6 sudah menyuruh koleksi disembunyikan), jadi biayanya hanya aturan gating di build. B dan C sama-sama lebih jujur soal ambang, tetapi keduanya menuntut penulisan ulang copy dan, untuk B, homepage yang berubah bentuk beberapa minggu setelah peluncuran.
 
 **Satu hal yang harus diputuskan bersama pilihannya** (kalau tidak, A dan C jadi tautan mati): apakah halaman `/ranking` ada di Stage 0. Item fog itu sudah menjadi tiket tersendiri — [14-ranking-and-collection-pages-at-50-tools.md](14-ranking-and-collection-pages-at-50-tools.md) — dan terblokir oleh tiket ini. Tiket lain yang lahir dari pekerjaan prototipe: [13-submit-flow-mechanics.md](13-submit-flow-mechanics.md), muncul karena CTA "titip tool" di ketiga varian mengarah ke `/submit` yang mekanismenya belum diputuskan.
+
+## Answer
+
+**2026-10-23 — pemilik memilih varian A (Rangka penuh).**
+
+- Homepage peluncuran memakai semua seksi copy v2; ranking tampil sebagai satu kotak "belum cukup data" + ambangnya; koleksi disembunyikan (02 §14.6); slot iklan dipertahankan untuk diuji pada skala 50 tool.
+- Konsekuensi: tautan nav/footer "Ranking" harus mengarah ke halaman nyata → tiket 14 (apakah /ranking & /koleksi terbit di Stage 0) kini tidak terblokir dan jadi keputusan berikutnya.
+- Slot iklan di varian A membuat fog "AdSense timing" mulai menggigit — iklan perlu keputusan: slot kosong berlabel atau tanpa slot.
+- Proto pada `docs/preview/homepage-launch-prototype.html` adalah primary source varian pemenang; varian B dan C tetap ada di file untuk arsip keputusan.
