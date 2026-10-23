@@ -27,6 +27,7 @@ A Stage 0 site running from `~/code/blog/gudangtool` (git repo → GitHub → Ac
 - [What is the split-verification protocol?](issues/03-verification-protocol-for-two-testers.md): Two dates — `observed_at` (agent, mechanical) and `verified_at` (owner, real task); `diuji` needs both. Failed verification falls to `terdaftar`. Evidence lives outside the repo.
 - [Which schema is canonical?](issues/12-schema-drift-between-repo-spec-and-seed-data.md): `14-repo-spec.md` v1.1 is canonical (D19). One file per tool; `alternatives: []` allowed; `internal_note` is a structured object; seed archived as `06-tools-seed.json`.
 - [What does the build actually refuse?](issues/06-validation-gate-enforcement.md): Eight rules mapped to mechanisms (D20). Zod gates 1–5; lint gates 6; post-build script gates 7; nav logic gates 8; noindex is template-computed, no manifest.
+- [What is the category and lane map at 50 tools?](issues/04-category-taxonomy-at-50-tools.md): All 8 categories ship; only Desain is indexable. No lanes at launch (deferred). Homepage "Baru masuk" strip + Pagefind search for cross-category discovery.
 
 ## Not yet specified
 
