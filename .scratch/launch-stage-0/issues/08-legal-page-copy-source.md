@@ -83,3 +83,7 @@ tidak boleh tayang.
 
 - Peluncuran tidak lagi terblokir oleh P0 #6 (legal pages).
 - Ticket 09 (DNS & email) sekarang punya konsumen nyata untuk record MX/forward `halo@`.
+
+### 2026-10-23 — pembaruan dari tiket 13 / D27
+
+Mekanisme pengiriman yang disebut di jawaban tiket ini ("GitHub Issue Form") digantikan **Google Form** (D27). Dampaknya ke jawaban ini: halaman privasi mencantumkan **Google** di daftar pihak ketiga bertanggal sebagai pemroses data pengirim tool. Jalur kontak `halo@gudangtool.web.id` tidak berubah.

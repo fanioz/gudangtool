@@ -1,7 +1,7 @@
 # Ticket: How does a tool submission actually reach us?
 
 Type: grilling
-Status: open
+Status: resolved
 
 ## Question
 
@@ -49,3 +49,13 @@ This was invisible until the homepage prototype (ticket 10) put a "Titip tool" C
 
 **Sub-tanya yang ikut harus dijawab di sini:** apakah jalur "prioritas 48 jam" (berbayar) muncul di formulir Stage 0, atau hanya di halaman placement terpisah yang belum ada? D9 menaruh placement di balik pendapatan iklan, dan aturan 5 melarang penempatan yang mengubah tier atau peringkat — jadi formulir Stage 0 sebaiknya hanya menawarkan jalur biasa, dan jalur berbayar baru muncul setelah ketentuan placement tertulis.
 
+
+## Answer
+
+**2026-10-23 — pemilik memilih opsi 5: Google Form.** Tercatat sebagai **D27** di `docs/09-decision-log.md`.
+
+- `/submit` menautkan keluar ke Google Form (tanpa iframe embed); fallback email `halo@gudangtool.web.id`.
+- Triase manual dari Sheets; tidak ada repo publik baru; D18 (repo katalog private) tetap utuh.
+- Jalur berbayar "prioritas 48 jam" tidak muncul di form Stage 0 — menunggu ketentuan placement tertulis (D9).
+- Konsekuensi ke tiket 08: Google ditambahkan ke daftar pihak ketiga bertanggal di halaman privasi (lihat komentar di tiket 08).
+- Pemicu migrasi ke repo GitHub publik terpisah: volume mingguan yang membuat triase spreadsheet tidak praktis.

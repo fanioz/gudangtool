@@ -37,6 +37,7 @@ A Stage 0 site running from `~/code/blog/gudangtool` (git repo → GitHub → Ac
 - [How is the Astro scaffold structured?](issues/15-astro-scaffold-structure.md): **D26** — token CSS (`tokens.css`) + scoped style per komponen; font self-host subset WOFF2 ≤120 KB; Pagefind tetap (Lighthouse <85 = pemicu revisit); set komponen launch + kondisional, tanpa Pagination. Gerbang scaffolding dibuka awal oleh pemilik; fog scaffolding selesai.
 - [What does the homepage show at 50 tools?](issues/10-homepage-filter-behaviour-at-50-tools.md): **Varian A — rangka penuh.** Ranking tampil satu kotak "belum cukup data" + ambang; koleksi disembunyikan; slot iklan dipertahankan (fog AdSense mulai menggigit). Konsekuensi: nav "Ranking" butuh halaman nyata → tiket 14 terbuka.
 - [Do `/ranking` and `/koleksi` ship at 50 tools?](issues/14-ranking-and-collection-pages-at-50-tools.md): **Terbit, `noindex, follow`, di luar sitemap** (pilihan a). Halaman menjelaskan ambang + "belum cukup data"; tautan nav tidak pernah mati; tautan "Koleksi" hanya muncul bila ada koleksi yang memenuhi ambang.
+- [How does a tool submission actually reach us?](issues/13-submit-flow-mechanics.md): **Google Form** (**D27**) — `/submit` menautkan keluar, fallback email, triase manual dari Sheets; D18 tetap utuh; jalur berbayar tidak ada di Stage 0; Google masuk daftar pihak ketiga privasi (tiket 08 diperbarui).
 
 ## Not yet specified
 

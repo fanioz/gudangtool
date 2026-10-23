@@ -148,7 +148,7 @@ Ini keunggulan utama file-based: **integritas data menjadi bagian dari build**, 
 | Filter dan koleksi | Dihitung saat build dari data |
 | Pencarian | Pagefind (indeks statis) |
 | Ranking | Snapshot JSON bulanan dari log/analytics |
-| Submission | GitHub Issue Form, dengan fallback email |
+| Submission | Google Form, dengan fallback email (D27) |
 | Moderasi | Label issue + PR review |
 | Edit oleh non-teknis | Belum ada; agent + PR |
 | Analytics | Cloudflare Web Analytics |

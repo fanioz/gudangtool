@@ -45,7 +45,7 @@
 10. **Runbook konten.** Cara menambah 50 tool/minggu: sumber, penulisan satu kalimat, penentuan tier, QA, dan penolakan.
 11. **Template impor CSV/JSON.** Kolom tetap agar agent tidak mengarang field.
 12. **Pipeline ranking.** Parsing access log Caddy, filter bot, snapshot bulanan, ambang 100 pembukaan.
-13. **Alur submission.** GitHub Issue Form + label + template email fallback.
+13. **Alur submission.** Google Form + fallback email (D27; sebelumnya GitHub Issue Form).
 14. **Search Console dan Bing.** Verifikasi, sitemap tersegmentasi, robots.txt, pemantauan indeks.
 15. **Performance budget.** Batas JS, CSS, font, gambar; Lighthouse CI di setiap PR.
 16. **Checklist aksesibilitas.** Fokus keyboard, kontras badge, heading hierarchy, alt text.
@@ -81,7 +81,7 @@
 | 1 | Kategori peluncuran | **Desain + AI**, masing-masing 15+ tool |
 | 2 | Ambang indeks kategori | Tetap 12; jangan diturunkan hanya agar terlihat penuh |
 | 3 | Repo publik atau privat | Privat selama konten belum siap; publik jika mengejar menit Actions tak terbatas |
-| 4 | Form submission | GitHub Issue Form; email sebagai fallback |
+| 4 | Form submission | Google Form; email sebagai fallback (D27) |
 | 5 | Sumber ranking | Access log Caddy; Cloudflare sebagai pembanding |
 | 6 | Alamat email pengirim | `halo@gudangtool.web.id` atau subdomain `mail.` |
 

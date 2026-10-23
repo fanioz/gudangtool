@@ -388,6 +388,32 @@ Catatan keputusan berurutan, alasan di baliknya, dan hal-hal yang sudah tidak be
 
 ---
 
+### D27. Mekanisme titip tool Stage 0: Google Form
+
+**Keputusan:** pengiriman tool lewat Google Form — halaman `/submit` menautkan keluar ke form (tanpa embed iframe), dengan email `halo@gudangtool.web.id` sebagai fallback. Triase manual dari spreadsheet jawaban. Jalur berbayar "prioritas 48 jam" tidak ditampilkan di form Stage 0 sampai ketentuan placement tertulis (D9). Menggantikan rekomendasi GitHub Issue Form di `13-launch-plan.md` §13 dan baris Submission di `12-tech-stack.md`.
+
+| Hal | Keputusan |
+|---|---|
+| Formulir | Google Form; `/submit` hanya menautkan keluar |
+| Fallback | Email `halo@gudangtool.web.id` |
+| Triase | Manual dari Sheets, ditinjau mingguan |
+| Jalur berbayar | Tidak ada di Stage 0; muncul hanya setelah ketentuan placement tertulis |
+| Privasi | Google masuk daftar pihak ketiga bertanggal di halaman privasi (ticket 08) |
+
+**Alasan:**
+
+- Hambatan akun: pembuat tool Indonesia umumnya punya akun Google, jarang GitHub — Issue Form bahkan di repo publik menuntut akun GitHub.
+- Nol perawatan di volume peluncuran: tidak ada repo publik yang harus dijaga dari spam.
+- D18 tetap utuh: repo katalog tetap private; permukaan publiknya cukup satu tautan.
+
+**Konsekuensi:**
+
+- Halaman privasi mencantumkan Google sebagai pemroses data pengirim, masuk daftar pihak ketiga bertanggal.
+- Bila volume mingguan membuat spreadsheet tidak praktis, migrasi ke repo GitHub publik terpisah; jalur ekspor Sheets tersedia.
+- Formulir Stage 0 hanya menawarkan jalur biasa (antrean 14 hari); copy §10 "prioritas 48 jam" menunggu spec placement.
+
+---
+
 ## Hal yang sudah kedaluwarsa
 
 | Materi | Status | Tindakan |
