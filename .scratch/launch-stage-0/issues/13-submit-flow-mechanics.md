@@ -34,3 +34,18 @@ This was invisible until the homepage prototype (ticket 10) put a "Titip tool" C
 **Why this is a decision, not a build step**: every option above changes what the homepage promises, what the legal pages say, and what the owner maintains weekly. Choosing wrong means a public surface that cannot be received, or a paid lane that reads as a sold ranking.
 
 **Not yet specified here**: exact field list for the form, spam handling, and what the submitter gets back. Those follow from whichever mechanism is chosen.
+
+### Opsi yang disiapkan (2026-10-23)
+
+| Opsi | Mekanisme | Yang harus berubah | Konsekuensi |
+|---|---|---|---|
+| 1 | Issue Form di repo publik terpisah, `fanioz/gudangtool-submissions` | Repo baru + label `submission` + issue template | D18 tetap berlaku (katalog tetap private); mekanisme sama seperti rekomendasi launch plan; tapi ada repo publik yang harus dijaga dari spam |
+| 2 | Issue Form di repo yang sama, repo katalog jadi publik | D18 berubah | Menembus keputusan terkunci; katalog dan isinya belum siap tayang, dan ticket 08 (copy legal) harus ditulis ulang |
+| 3 | Tally | Entri baru di decision log (layanan baru) | Formulir dan data pengirim berada di pihak ketiga; perlu aturan privasi baru; ada biaya layanan |
+| 4 | Email saja — tautan `mailto:` + template di `/submit` | Halaman `/submit` jadi satu blok alamat dan template | Nol komponen baru; antrean masuk kotak email dan harus ditriage manual; tidak ada label otomatis |
+| 5 | Form statis yang mengirim POST ke fungsi serverless | Loader API di proyek statis | Bertentangan dengan aturan §8 (tanpa API/diagram runtime) dan menambah permukaan kegagalan |
+
+**Rekomendasi: opsi 1.** Ini satu-satunya opsi yang mempertahankan D18, mempertahankan mekanisme yang direkomendasikan launch plan, dan tidak menambah layanan pihak ketiga yang perlu diurus. Yang harus disorot: repo pengirim adalah permukaan publik pertama Gudangtool, jadi spam dan template issue adalah urusan hari pertama, bukan urusan kemudian — opsi 4 (email) tetap tersedia sebagai fallback yang sudah tertulis di launch plan.
+
+**Sub-tanya yang ikut harus dijawab di sini:** apakah jalur "prioritas 48 jam" (berbayar) muncul di formulir Stage 0, atau hanya di halaman placement terpisah yang belum ada? D9 menaruh placement di balik pendapatan iklan, dan aturan 5 melarang penempatan yang mengubah tier atau peringkat — jadi formulir Stage 0 sebaiknya hanya menawarkan jalur biasa, dan jalur berbayar baru muncul setelah ketentuan placement tertulis.
+
