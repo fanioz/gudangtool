@@ -39,9 +39,7 @@ A Stage 0 site running from `~/code/blog/gudangtool` (git repo → GitHub → Ac
 - **Scaffolding after the schema is locked.** Framework layout, component decomposition, layout and island strategy for search. Schema and build gates are now locked (tickets 06/12, D19/D20); this can graduate once 09/11 (repo & deploy) are resolved.
 - **Design token → CSS delivery.** `docs/02-visual-identity.md` locks colours, fonts, radii; how that becomes tokens, and whether fonts are self-hosted at the stated ≤120 KB budget, is open.
 - **Search at 50 pages.** Pagefind is specified, but at 50 pages a client-side island may be the wrong call. Revisit once catalogue size stabilises.
-- **Submit flow mechanics.** GitHub Issue Form vs Tally, and where the `submission` label is triaged. The decision is recorded in the launch plan as a recommendation, not a spec.
-- **AdSense application timing.** D9 puts AdSense behind placement revenue. Whether `ads.txt` and ad slots ship empty on day one or not at all is open.
-- **Collection/ranking eligibility at 50 tools.** Native thresholds (≥10 tool collection, ≥20 ranked tool, ≥100 opens) may make both unshippable at this size.
+- **AdSense application timing.** D9 puts AdSense behind placement revenue. Whether `ads.txt` and ad slots ship empty on day one or not at all is open — it only bites if the homepage keeps a reserved ad slot (variant A of ticket 10; variants B and C drop it).
 
 ## Out of scope
 
