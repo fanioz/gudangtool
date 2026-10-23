@@ -1,0 +1,82 @@
+# Deploy ke sumojak sesuai 14-repo-spec.md §11:
+# build → rsync ke releases/<timestamp> → tukar symlink current → sisakan 3 release → purge Cloudflare.
+#
+# CATATAN: langkah "Stage dist" masih placeholder. Saat scaffold Astro tumbuh
+# (fog "Scaffolding" di map launch-stage-0), ganti dengan `npm ci && npm run build`
+# dan hapus direktori `site/`.
+
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      # Dipakai oleh `if:` purge; kosong bila secret belum diisi.
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Stage dist
+        run: |
+          mkdir -p dist
+          cp -r site/. dist/
+
+      - name: Siapkan SSH
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
+          printf '%s\n' "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 700 ~/.ssh
+          chmod 600 ~/.ssh/deploy_key ~/.ssh/known_hosts
+
+      - name: Rsync release baru
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          TARGET_PATH: ${{ secrets.TARGET_PATH }}
+        run: |
+          TS=$(date -u +%Y%m%dT%H%M%SZ)
+          echo "RELEASE_TS=$TS" >> "$GITHUB_ENV"
+          rsync -az --mkpath \
+            -e "ssh -p $SSH_PORT -i ~/.ssh/deploy_key -o UserKnownHostsFile=~/.ssh/known_hosts -o StrictHostKeyChecking=yes" \
+            dist/ "$SSH_USER@$SSH_HOST:$TARGET_PATH/releases/$TS/"
+
+      - name: Tukar symlink dan sisakan 3 release
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          TARGET_PATH: ${{ secrets.TARGET_PATH }}
+        run: |
+          ssh -p "$SSH_PORT" -i ~/.ssh/deploy_key \
+            -o UserKnownHostsFile=~/.ssh/known_hosts -o StrictHostKeyChecking=yes \
+            "$SSH_USER@$SSH_HOST" "
+              set -e
+              ln -sfn '$TARGET_PATH/releases/$RELEASE_TS' '$TARGET_PATH/current'
+              ls -1dt '$TARGET_PATH'/releases/*/ | tail -n +4 | xargs -r rm -rf
+              readlink '$TARGET_PATH/current'
+            "
+
+      - name: Purge cache Cloudflare
+        if: env.CLOUDFLARE_API_TOKEN != ''
+        env:
+          CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+        run: |
+          curl -sS -X POST \
+            "https://api.cloudflare.com/client/v4/zones/$CLOUDFLARE_ZONE_ID/purge_cache" \
+            -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+            -H "Content-Type: application/json" \
+            --data '{"purge_everything":true}'
