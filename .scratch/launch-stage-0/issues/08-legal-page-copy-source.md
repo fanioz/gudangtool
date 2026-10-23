@@ -1,7 +1,7 @@
 # Ticket: Where does legal copy come from?
 
 Type: grilling
-Status: open
+Status: claimed
 Blocked by: 01
 
 ## Question
