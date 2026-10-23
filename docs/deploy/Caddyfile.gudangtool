@@ -1,0 +1,46 @@
+# Konfigurasi Caddy untuk gudangtool.web.id
+
+**Kapan dipakai:** sekali saja, di server `sumojak`, setelah `/var/www/gudangtool` dibuat.
+**Status:** belum dipasang — owner belum menjalankan langkah A di `docs/deploy/runbook-launch.md`.
+
+## Cara memasang
+
+Blok di bawah ini **ditambahkan** ke `/etc/caddy/Caddyfile` yang sudah ada. Jangan menimpa
+file itu: `omni.pecutai.web.id` dilayani dari server yang sama.
+
+```bash
+# di sumojak
+sudo tee -a /etc/caddy/Caddyfile < docs/deploy/Caddyfile.gudangtool
+sudo caddy validate --config /etc/caddy/Caddyfile
+sudo systemctl reload caddy
+```
+
+## Isi file
+
+```caddyfile
+gudangtool.web.id {
+	root * /var/www/gudangtool/current
+	encode gzip zstd
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "strict-origin-when-cross-origin"
+	}
+	@astro path /_astro/*
+	header @astro Cache-Control "public, max-age=31536000, immutable"
+	header Cache-Control "public, max-age=0, s-maxage=1800, stale-while-revalidate=86400"
+}
+```
+
+## Catatan
+
+- `root` menunjuk ke symlink `current`, yang ditukar oleh pipeline deploy. Root di `/var/www/gudangtool/current`
+  **belum ada** sampai release pertama berhasil — sebelum itu domain mengembalikan 404.
+- `encode gzip zstd` mengikuti Caddyfile yang sedang berjalan. `14-repo-spec.md` §12 menyebut "Brotli/gzip";
+  Brotli bukan codec bawaan Caddy standar, jadi yang dipakai adalah gzip + zstd. Deviasi ini dicatat,
+  bukan diperbaiki di sini.
+- Cache-Control HTML (30 menit di edge, stale-while-revalidate 1 hari) mengikuti §12.
+- HSTS dipasang sekarang, begitu domain aktif. Pastikan domain sudah ter-delegasi ke Cloudflare
+  **sebelum** HSTS aktif — HSTS memaksa HTTPS tanpa jalan mundur lewat HTTP.
+- `try_files` dan `404` kustom menyusul bersama scaffold Astro — saat ini belum ada `404.html` untuk dilayani.
