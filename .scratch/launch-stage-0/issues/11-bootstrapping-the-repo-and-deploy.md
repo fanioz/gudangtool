@@ -27,3 +27,71 @@ The checklist must cover:
 7. Cloudflare zone for `gudangtool.web.id` — verify nameserver change is possible for `.web.id`.
 
 Resolved when: a placeholder `index.html` is reachable at the domain over HTTPS, and a test commit on `main` replaces it via CI.
+
+## Comments
+
+### 2026-10-23 — sesi agent: bagian AFK selesai, menunggu langkah pemilik
+
+**Keputusan (dalam lingkup tugas):**
+
+- Deploy sebagai **`ubuntu`** (konvensi D25 "SSH publik + kunci"), bukan user root dan bukan user `deploy` baru — satu admin VPS, user terpisah hanya menambah beban rawat.
+- Aksi GitHub Actions memakai **keypair khusus** `~/.ssh/gudangtool_deploy_ed25519` (di Mac pemilik), bukan kunci pribadi pemilik — bisa dicabut sendiri di `~/.ssh/authorized_keys` sumojak tanpa menyentuh akses pemilik.
+
+**Checklist yang sudah selesai (1, 2, 3, 6):**
+
+1. Repo git di folder kerja ini, branch `main`, `.gitignore` menutup `.DS_Store` — sudah ada sebelum sesi, terverifikasi. (`~/code/blog/gudangtool` ditinggalkan sesuai catatan map.)
+2. Repo GitHub `fanioz/gudangtool` — private, default `main`, sinkron — sudah ada sebelum sesi.
+3. Kunci deploy terpasang di `authorized_keys` sumojak; login dengan kunci itu terverifikasi.
+4. Workflow `.github/workflows/deploy.yml` (push `main` + manual): stage → rsync ke `releases/<timestamp>` → tukar symlink `current` → sisakan 3 release → purge Cloudflare (langkah terakhir lewati otomatis bila token belum diisi). Halaman placeholder `site/index.html` (`noindex`, bahasa Indonesia). Langkah build masih placeholder `site/` → `dist/`; diganti `npm ci && npm run build` saat fog "Scaffolding" tumbuh jadi tiket.
+5. Enam secret Actions terisi: `SSH_HOST`, `SSH_PORT` (4321), `SSH_USER` (ubuntu), `SSH_PRIVATE_KEY`, `SSH_KNOWN_HOSTS` (pin host key ed25519 — TOFU dihindari), `TARGET_PATH=/var/www/gudangtool`. `CLOUDFLARE_API_TOKEN`/`CLOUDFLARE_ZONE_ID` sengaja belum diisi.
+6. CI terbukti sampai gerbang: run [39892195851](https://github.com/fanioz/gudangtool/actions/runs/39892195851) gagal **tepat** di `mkdir /var/www/gudangtool/releases/… → Permission denied` — persis prasyarat root satu kali di bawah. Semua sebelumnya (checkout, stage, SSH dengan kunci deploy + host key pin, koneksi rsync) hijau. Catatan: run pertama gagal di host key karena saya menyalin base64 pin secara manual dan mengubah satu karakter; diperbaiki dengan menyalurkan file keyscan langsung ke `gh secret set`. Konsekuensi sementara: setiap commit ke `main` akan memerah di langkah rsync sampai langkah A di bawah selesai — itu tripwire yang disengaja, bukan regresi.
+
+**Fakta baru (DNS, jawaban untuk D25):**
+
+- `gudangtool.web.id` **terdaftar** 2026-10-21 (RDAP `31651918_DOMAIN_ID-ID`), registrar **PT Exabytes Network Indonesia** (daftarnama.id), kadaluarsa 2027-10-21. NS saat ini `ns1/ns2.sumopod.com`, tetapi sumopod **tidak menyajikan zona** untuk domain ini → delegasi kosong (lame) → domain gelap. Tidak ada yang rusak bila NS dipindah.
+- `.web.id` **terbukti mendukung delegasi NS pihak ketiga** — domain ini sekarang sudah didelegasikan ke sumopod, bukan NS registrar. Pertanyaan verifikasi manual di D25 terjawab; sisa langkahnya hanya swap NS di panel registrar.
+- `gudangtools.web.id` (jamak) juga terdaftar, NS sumopod; zonanya ada tapi tanpa record A — juga aman dipindah.
+- Catatan teknis untuk D25: "satu zona Cloudflare" secara teknis = **satu akun Cloudflare dengan dua zona** (Cloudflare membuat zona per domain yang bisa didaftarkan; `gudangtool.web.id` dan `gudangtools.web.id` adalah dua domain saudara). Substansi keputusan tidak berubah: satu tempat konfigurasi, redirect di edge.
+
+**Checklist pemilik (urut, copy-paste):**
+
+A. **Root sekali di sumojak** (kebijakan proyek melarang agent memakai sudo):
+
+```bash
+ssh sumojak
+sudo mkdir -p /var/www/gudangtool/releases
+sudo chown -R ubuntu:ubuntu /var/www/gudangtool
+sudo tee -a /etc/caddy/Caddyfile <<'EOF'
+
+gudangtool.web.id {
+	root * /var/www/gudangtool/current
+	encode gzip zstd
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "strict-origin-when-cross-origin"
+	}
+	@astro path /_astro/*
+	header @astro Cache-Control "public, max-age=31536000, immutable"
+	header Cache-Control "public, max-age=0, s-maxage=1800, stale-while-revalidate=86400"
+}
+EOF
+sudo caddy validate --config /etc/caddy/Caddyfile && sudo systemctl reload caddy
+```
+
+Catatan: `encode gzip zstd` mengikuti Caddyfile yang berjalan (Brotli bukan bawaan Caddy standar) — menyimpang dari §12 "Brotli/gzip"; dicatat sebagai fakta, bukan perubahan spec. Blok `404` kustom menyusul bersama scaffold (placeholder belum punya 404.html).
+
+B. **Cloudflare** (akun pemilik): tambah zona `gudangtool.web.id` + `gudangtools.web.id` (Free, satu akun). Zona gudangtool: `A @ → 43.173.26.57` proxy oranye. Zona gudangtools: `A @ → 192.0.2.1` proxy oranye (dummy; redirect menyala di edge) + **Bulk Redirect** 301 `gudangtools.web.id/*` → `https://gudangtool.web.id` + SSL mode **Full (strict)** di kedua zona.
+
+C. **Registrar** (panel Exabytes/daftarnama.id): ganti NS kedua domain ke pasangan yang diberikan Cloudflare. Setelah delegasi hidup (`dig NS gudangtool.web.id`), Caddy menerbitkan sertifikat otomatis di percobaan berikutnya — bila perlu, `sudo systemctl reload caddy` sekali lagi.
+
+D. **Kembali ke CI**: isi dua secret sisanya lalu jalankan ulang deploy:
+
+```bash
+gh secret set CLOUDFLARE_API_TOKEN -R fanioz/gudangtool -b"<token Zone.Cache Purge>"
+gh secret set CLOUDFLARE_ZONE_ID -R fanioz/gudangtool -b"<zone id gudangtool>"
+gh workflow run deploy.yml -R fanioz/gudangtool
+```
+
+Placeholder harus hidup di `https://gudangtool.web.id`. Lalu satu commit isi (misal ubah kalimat placeholder) membuktikan swap via CI — kondisi "resolved when" tercapai dan tiket ini bisa ditutup.
